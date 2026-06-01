@@ -1,0 +1,7 @@
+@import "./vendor/lichess-pgn-viewer.css";
+
+.lpv-board {
+	max-width: 600px;
+	--board-color: #b58863;
+	font-family: "Noto Sans", sans-serif;
+}

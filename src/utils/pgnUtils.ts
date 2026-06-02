@@ -1,4 +1,4 @@
-import type { IGameState } from "#/reducers/gameReducer.ts";
+import type { IGameState } from "#/interfaces.ts";
 
 export const getHeaders = (pgn: string) => {
 	const pgnHeader = pgn.split(/\n\n/g)[0];

@@ -23,10 +23,7 @@ const Home = () => (
 					Upload and convert your games into a book format, along with variation
 					and annotations.
 				</h2>
-				<Link
-					to="/chessboard"
-					className="rounded-3xl text-xl font-bold btn btn-primary"
-				>
+				<Link to="/chessboard" className="btn btn-primary btn-large">
 					Get Started
 				</Link>
 			</div>

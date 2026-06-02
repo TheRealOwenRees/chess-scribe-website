@@ -11,6 +11,7 @@ const PgnViewer = ({ gamePgn, handlePlyChange }: IProps) => {
 	const containerRef = useRef<HTMLDivElement | null>(null);
 	const viewerRef = useRef(null);
 
+	// TODO make thin, and pull functions out
 	useEffect(() => {
 		const element: HTMLElement | null = document.querySelector(".lpv-board");
 		if (!element) return;

@@ -33,7 +33,7 @@ const Chessboard = () => {
 
 			<div className="flex gap-4">
 				<button
-					className="cursor-pointer"
+					className="btn btn-primary"
 					type="button"
 					onClick={handleClearGame}
 				>
@@ -41,7 +41,7 @@ const Chessboard = () => {
 				</button>
 
 				<button
-					className="cursor-pointer"
+					className="btn btn-secondary"
 					type="button"
 					onClick={handleSavePgn}
 					disabled={!gameState.pgn}
@@ -50,7 +50,7 @@ const Chessboard = () => {
 				</button>
 
 				<button
-					className="cursor-pointer"
+					className="btn btn-secondary"
 					type="button"
 					onClick={handleSavePdf}
 					disabled={!gameState.pgn || generatingPdf}

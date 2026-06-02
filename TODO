@@ -4,6 +4,7 @@ Env Vars
 API base URL
 
 - style clear/save buttons
+- rearrange buttons / header space - collapse on smaller screens
 
 - add / edit headers
 - custom headers - title etc

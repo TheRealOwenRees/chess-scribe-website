@@ -1,0 +1,41 @@
+.btn {
+	font-size: 1rem;
+	font-weight: bold;
+	cursor: pointer;
+	border-radius: 0.5rem;
+
+	transition: all 0.3s ease;
+
+	&:disabled {
+		cursor: default;
+		pointer-events: none;
+		opacity: 0.5;
+	}
+}
+
+.btn-large {
+	font-size: 1.25rem;
+	padding: 1rem 4rem;
+	border-radius: 1.5rem;
+}
+
+.btn-primary {
+	background-color: var(--accent);
+	color: var(--bg-base);
+
+	&:hover {
+		background-color: var(--bg-base);
+		color: var(--accent);
+	}
+}
+
+.btn-secondary {
+	background-color: var(--bg-base);
+	color: var(--accent);
+	border: 1px solid var(--accent);
+
+	&:hover {
+		background-color: var(--accent);
+		color: var(--bg-base);
+	}
+}

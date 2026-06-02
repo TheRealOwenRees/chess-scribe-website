@@ -67,14 +67,13 @@ export const useChessGame = () => {
 	};
 
 	const handleToggleClock = () => {
-		console.log("Toggle clock");
 		gameDispatch({
 			type: "TOGGLE_DIAGRAM_CLOCK",
 		});
 	};
 
-	const handleToggleDiagram = () => {
-		console.log("Toggle diagram");
+	const handleToggleDiagram = ({ ply, fen }: { ply: number; fen: string }) => {
+		console.log("Toggle diagram", ply, fen);
 	};
 
 	return {

@@ -5,6 +5,7 @@ import {
 	useRef,
 	useState,
 } from "react";
+import { toast } from "react-toastify";
 import type { IPosition } from "#/interfaces.ts";
 import { gameReducer, initialGameState } from "#/reducers/gameReducer.ts";
 import { downloadPDF } from "#/utils/pdfUtils.ts";
@@ -54,17 +55,29 @@ export const useChessGame = () => {
 
 			if (response.ok) {
 				downloadPDF(await response.blob());
-				// TODO toast
+
+				// TODO add metrics logger - add success to analytics
+
+				toast.success("PDF successfully generated!", {
+					toastId: "pdf-success",
+				});
 			} else {
-				const body = await response.json();
 				// TODO toast and remove console but pass to logger
+				const body = await response.json();
 				console.error("Error saving PDF:", body.error);
+
+				toast.error("An error has occurred. Please try again later.", {
+					toastId: "pdf-error",
+				});
 			}
 		} catch (error: unknown) {
+			// TODO add metrics / logger
 			console.error("Error saving PDF:", error);
 
 			if (error instanceof Error) {
-				// do something here such as toast
+				toast.error("An error has occurred. Please try again later.", {
+					toastId: "pdf-error",
+				});
 			}
 		} finally {
 			setGeneratingPdf(false);

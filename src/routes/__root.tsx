@@ -2,6 +2,7 @@ import { TanStackDevtools } from "@tanstack/react-devtools";
 import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { type ReactNode, Suspense } from "react";
+import { ToastContainer } from "react-toastify";
 import { MatomoAnalytics } from "#/components/MatomoAnalytics.tsx";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
@@ -40,6 +41,7 @@ function RootDocument({ children }: { children: ReactNode }) {
 			<body className="font-sans antialiased">
 				<Header />
 				{children}
+				<ToastContainer position="bottom-right" />
 				<Footer />
 				<TanStackDevtools
 					config={{

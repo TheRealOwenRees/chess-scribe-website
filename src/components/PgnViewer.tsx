@@ -1,9 +1,10 @@
 import LichessPgnViewer from "lichess-pgn-viewer";
 import { useEffect, useRef } from "react";
+import type { IPosition } from "#/interfaces.ts";
 
 interface IProps {
 	gamePgn: string;
-	handlePlyChange: ({ ply, fen }: { ply: number; fen: string }) => void;
+	handlePlyChange: ({ ply, fen }: IPosition) => void;
 }
 
 const PgnViewer = ({ gamePgn, handlePlyChange }: IProps) => {

@@ -1,13 +1,9 @@
 import { type ChangeEvent, useReducer, useRef, useState } from "react";
+import type { IPosition } from "#/interfaces.ts";
 import { gameReducer, initialGameState } from "#/reducers/gameReducer.ts";
 import { downloadPDF } from "#/utils/pdfUtils.ts";
 import { buildPgnString, getHeaders } from "#/utils/pgnUtils.ts";
 import { downloadString } from "#/utils/stringUtils.ts";
-
-interface IPosition {
-	ply: number;
-	fen: string;
-}
 
 export const useChessGame = () => {
 	const [gameState, gameDispatch] = useReducer(gameReducer, initialGameState);
@@ -21,7 +17,7 @@ export const useChessGame = () => {
 
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-	const handlePlyChange = ({ ply, fen }: { ply: number; fen: string }) => {
+	const handlePlyChange = ({ ply, fen }: IPosition) => {
 		setCurrentPosition({ ply, fen });
 	};
 

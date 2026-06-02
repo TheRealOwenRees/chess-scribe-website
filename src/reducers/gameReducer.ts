@@ -1,7 +1,4 @@
-interface IDiagrams {
-	ply: number;
-	fen: string;
-}
+import type { IPosition } from "#/interfaces.ts";
 
 export interface IHeader {
 	event: string;
@@ -23,7 +20,7 @@ export interface IHeader {
 export interface IGameState {
 	pgn: string;
 	headers: IHeader;
-	diagrams: IDiagrams[];
+	diagrams: IPosition[];
 	diagramClock: boolean;
 }
 
@@ -31,7 +28,7 @@ type GameAction =
 	| { type: "SET_GAME"; payload: { pgn: string; headers: IHeader } }
 	| { type: "CLEAR_GAME" }
 	| { type: "SET_HEADERS"; payload: IHeader }
-	| { type: "ADD_DIAGRAM"; payload: IDiagrams }
+	| { type: "ADD_DIAGRAM"; payload: IPosition }
 	| { type: "DELETE_DIAGRAM"; payload: { ply: number } }
 	| { type: "TOGGLE_DIAGRAM_CLOCK" };
 
@@ -86,7 +83,7 @@ export const gameReducer = (state: IGameState, action: GameAction) => {
 			return {
 				...state,
 				diagrams: state.diagrams.filter(
-					(diagram: IDiagrams) => diagram.ply !== action.payload.ply,
+					(diagram: IPosition) => diagram.ply !== action.payload.ply,
 				),
 			};
 		case "TOGGLE_DIAGRAM_CLOCK":

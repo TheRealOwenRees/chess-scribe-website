@@ -31,68 +31,80 @@ const Chessboard = () => {
 				/>
 			</Section>
 
-			<div className="flex gap-4">
-				<button
-					className="btn btn-primary"
-					type="button"
-					onClick={handleClearGame}
-				>
-					Clear Game
-				</button>
-
-				<button
-					className="btn btn-secondary"
-					type="button"
-					onClick={handleSavePgn}
-					disabled={!gameState.pgn}
-				>
-					Save PGN
-				</button>
-
-				<button
-					className="btn btn-secondary"
-					type="button"
-					onClick={handleSavePdf}
-					disabled={!gameState.pgn || generatingPdf}
-				>
-					Save PDF
-				</button>
-			</div>
-			<PgnViewer
-				gamePgn={gameState.pgn || ""}
-				handlePlyChange={handlePlyChange}
-			/>
-			<div className="flex justify-between max-w-150 mt-2">
-				<div className="flex gap-2 items-center">
-					<label
-						htmlFor="diagram-add"
-						className="text-sm text-(--base-content)"
-					>
-						Select Diagram
-					</label>
-					<input
-						id="diagram-toggle"
-						name="diagram-toggle"
-						type="checkbox"
-						className="checkbox-accent"
-						checked={gameState.diagrams.some(
-							(d) => d.ply === currentPosition.ply,
-						)}
-						onChange={handleToggleDiagram}
+			<div className="grid grid-cols-2 gap-4">
+				<div>
+					<PgnViewer
+						gamePgn={gameState.pgn || ""}
+						handlePlyChange={handlePlyChange}
 					/>
+					<div className="grid grid-cols-3 gap-2 max-w-150 mt-2">
+						<button
+							className="btn btn-primary"
+							type="button"
+							onClick={handleClearGame}
+						>
+							Clear Game
+						</button>
+						<div className="flex gap-2 items-center">
+							<label
+								htmlFor="diagram-add"
+								className="text-sm text-(--base-content)"
+							>
+								Select Diagram
+							</label>
+							<input
+								id="diagram-toggle"
+								name="diagram-toggle"
+								type="checkbox"
+								className="checkbox-accent"
+								checked={gameState.diagrams.some(
+									(d) => d.ply === currentPosition.ply,
+								)}
+								onChange={handleToggleDiagram}
+							/>
+						</div>
+
+						<label className="toggle text-sm text-(--base-content)">
+							Render move times
+							<input
+								id="render-times"
+								name="render-times"
+								type="checkbox"
+								checked={gameState.diagramClock}
+								onChange={handleToggleClock}
+							/>
+							<span className="slider round" />
+						</label>
+					</div>
 				</div>
 
-				<label className="toggle text-sm text-(--base-content)">
-					Render move times
-					<input
-						id="render-times"
-						name="render-times"
-						type="checkbox"
-						checked={gameState.diagramClock}
-						onChange={handleToggleClock}
-					/>
-					<span className="slider round" />
-				</label>
+				<div className="flex gap-4">
+					{/*<button*/}
+					{/*	className="btn btn-primary"*/}
+					{/*	type="button"*/}
+					{/*	onClick={handleClearGame}*/}
+					{/*>*/}
+					{/*	Clear Game*/}
+					{/*</button>*/}
+
+					<button
+						className="btn btn-secondary"
+						type="button"
+						onClick={handleSavePgn}
+						disabled={!gameState.pgn}
+					>
+						Save PGN
+					</button>
+
+					<button
+						className="btn btn-secondary"
+						type="button"
+						onClick={handleSavePdf}
+						disabled={!gameState.pgn || generatingPdf}
+					>
+						Save PDF
+					</button>
+				</div>
 			</div>
 		</main>
 	);

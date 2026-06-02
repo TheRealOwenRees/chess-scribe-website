@@ -1,8 +1,12 @@
 .btn {
+	display: inline-flex;
 	font-size: 1rem;
 	font-weight: bold;
 	cursor: pointer;
 	border-radius: 0.5rem;
+	height: 50px;
+	align-items: center;
+	justify-items: center;
 
 	transition: all 0.3s ease;
 
@@ -17,6 +21,7 @@
 	font-size: 1.25rem;
 	padding: 1rem 4rem;
 	border-radius: 1.5rem;
+	height: auto;
 }
 
 .btn-primary {

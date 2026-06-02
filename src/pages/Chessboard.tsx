@@ -18,6 +18,7 @@ const Chessboard = () => {
 		handleToggleClock,
 		handleToggleDiagram,
 		handlePlyChange,
+		updateHeaders,
 	} = useChessGame();
 
 	return (
@@ -101,8 +102,14 @@ const Chessboard = () => {
 						</button>
 					</div>
 
-					<HeaderFields headers={gameState.headers} />
-					<CustomHeaders headers={gameState.headers} />
+					<HeaderFields
+						headers={gameState.headers}
+						updateHeaders={updateHeaders}
+					/>
+					<CustomHeaders
+						headers={gameState.headers}
+						updateHeaders={updateHeaders}
+					/>
 				</div>
 			</div>
 		</main>

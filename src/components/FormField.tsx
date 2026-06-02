@@ -1,15 +1,14 @@
-import { useChessGame } from "#/hooks/useChessGame.ts";
+import type { ChangeEvent } from "react";
 import type { IHeader } from "#/interfaces.ts";
 
 export interface IFormField {
 	fieldName: string;
 	type: string;
 	headers: IHeader;
+	updateHeaders: (e: ChangeEvent<HTMLInputElement>, fieldName: string) => void;
 }
 
-const FormField = ({ fieldName, type, headers }: IFormField) => {
-	const { updateHeaders } = useChessGame();
-
+const FormField = ({ fieldName, type, headers, updateHeaders }: IFormField) => {
 	return (
 		<div className="flex flex-col gap-2">
 			<label htmlFor={fieldName} className="text-sm capitalize">

@@ -9,6 +9,7 @@
 	&:focus {
 		outline: none;
 		border-color: var(--accent);
+		background-color: var(--header-bg);
 	}
 }
 

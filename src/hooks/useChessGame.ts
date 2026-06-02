@@ -118,6 +118,7 @@ export const useChessGame = () => {
 						...getHeaders(pgnString),
 						title: "",
 						subtitle: "",
+						author: "",
 					};
 					gameDispatch({
 						type: "SET_GAME",

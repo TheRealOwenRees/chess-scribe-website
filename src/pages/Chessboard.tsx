@@ -1,34 +1,23 @@
-import type { ChangeEvent, RefObject } from "react";
 import LichessButton from "#/components/LichessButton.tsx";
 import PgnViewer from "#/components/PgnViewer.tsx";
 import Section from "#/components/Section.tsx";
-import type { IGameState } from "#/reducers/gameReducer.ts";
+import { useChessGame } from "#/hooks/useChessGame.ts";
 
-interface IProps {
-	gameState: IGameState;
-	handleLoadPgn: (e: ChangeEvent<HTMLInputElement>) => void;
-	handleClearGame: () => void;
-	handleSavePgn: () => void;
-	handleSavePdf: () => void;
-	handleToggleClock: () => void;
-	handleToggleDiagram: () => void;
-	handlePlyChange: ({ ply, fen }: { ply: number; fen: string }) => void;
-	fileInputRef: RefObject<HTMLInputElement | null>;
-	currentPosition: { ply: number; fen: string };
-}
+const Chessboard = () => {
+	const {
+		gameState,
+		fileInputRef,
+		currentPosition,
+		generatingPdf,
+		handleLoadPgn,
+		handleClearGame,
+		handleSavePgn,
+		handleSavePdf,
+		handleToggleClock,
+		handleToggleDiagram,
+		handlePlyChange,
+	} = useChessGame();
 
-const Chessboard = ({
-	gameState,
-	handleLoadPgn,
-	handleClearGame,
-	handleSavePgn,
-	handleSavePdf,
-	handleToggleClock,
-	handleToggleDiagram,
-	handlePlyChange,
-	fileInputRef,
-	currentPosition,
-}: IProps) => {
 	return (
 		<main className="px-4 pb-8 place-self-center min-h-[calc(100vh-226px)]">
 			<Section title="Convert PGN to PDF">
@@ -64,7 +53,7 @@ const Chessboard = ({
 					className="cursor-pointer"
 					type="button"
 					onClick={handleSavePdf}
-					disabled={!gameState.pgn}
+					disabled={!gameState.pgn || generatingPdf}
 				>
 					Save PDF
 				</button>

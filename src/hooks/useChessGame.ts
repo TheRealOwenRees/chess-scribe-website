@@ -149,5 +149,6 @@ export const useChessGame = () => {
 		handlePlyChange,
 		handleToggleDiagram,
 		currentPosition,
+		generatingPdf,
 	};
 };

@@ -14,6 +14,7 @@ interface IProps {
 	handleToggleDiagram: () => void;
 	handlePlyChange: ({ ply, fen }: { ply: number; fen: string }) => void;
 	fileInputRef: RefObject<HTMLInputElement | null>;
+	currentPosition: { ply: number; fen: string };
 }
 
 const Chessboard = ({
@@ -26,6 +27,7 @@ const Chessboard = ({
 	handleToggleDiagram,
 	handlePlyChange,
 	fileInputRef,
+	currentPosition,
 }: IProps) => {
 	return (
 		<main className="px-4 pb-8 place-self-center min-h-[calc(100vh-226px)]">
@@ -84,6 +86,9 @@ const Chessboard = ({
 						name="diagram-toggle"
 						type="checkbox"
 						className="checkbox-accent"
+						checked={gameState.diagrams.some(
+							(d) => d.ply === currentPosition.ply,
+						)}
 						onChange={handleToggleDiagram}
 					/>
 				</div>

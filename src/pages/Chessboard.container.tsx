@@ -4,8 +4,6 @@ import Chessboard from "#/pages/Chessboard.tsx";
 const ChessboardContainer = () => {
 	const chessGameProps = useChessGame();
 
-	console.log(chessGameProps.currentPosition);
-
 	return (
 		<Chessboard
 			gameState={chessGameProps.gameState}
@@ -17,6 +15,7 @@ const ChessboardContainer = () => {
 			handleToggleDiagram={chessGameProps.handleToggleDiagram}
 			handlePlyChange={chessGameProps.handlePlyChange}
 			fileInputRef={chessGameProps.fileInputRef}
+			currentPosition={chessGameProps.currentPosition}
 		/>
 	);
 };

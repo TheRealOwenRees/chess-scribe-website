@@ -20,7 +20,7 @@ const PgnViewer = ({ gamePgn, handlePlyChange }: IProps) => {
 			scrollToMove: false,
 		});
 
-		// set initial position - TODO change onto file load
+		// set initial position - TODO change to on file load
 		// handlePlyChange({
 		// 	ply: 0,
 		// 	fen: viewerRef.current?.curData().fen,
@@ -78,7 +78,7 @@ const PgnViewer = ({ gamePgn, handlePlyChange }: IProps) => {
 				move.removeEventListener("touchstart", clickHandlerDelay);
 			});
 		};
-	}, [gamePgn]);
+	}, [gamePgn, handlePlyChange]);
 
 	return <div ref={containerRef} className="lpv-board" />;
 };

@@ -1,4 +1,10 @@
-import { type ChangeEvent, useReducer, useRef, useState } from "react";
+import {
+	type ChangeEvent,
+	useCallback,
+	useReducer,
+	useRef,
+	useState,
+} from "react";
 import type { IPosition } from "#/interfaces.ts";
 import { gameReducer, initialGameState } from "#/reducers/gameReducer.ts";
 import { downloadPDF } from "#/utils/pdfUtils.ts";
@@ -17,9 +23,9 @@ export const useChessGame = () => {
 
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-	const handlePlyChange = ({ ply, fen }: IPosition) => {
+	const handlePlyChange = useCallback(({ ply, fen }: IPosition) => {
 		setCurrentPosition({ ply, fen });
-	};
+	}, []);
 
 	const handleSavePgn = () => {
 		const pgnString = buildPgnString(gameState);

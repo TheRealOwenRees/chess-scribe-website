@@ -1,3 +1,5 @@
+import CustomHeaders from "#/components/CustomHeaders.tsx";
+import HeaderFields from "#/components/HeaderFields.tsx";
 import LichessButton from "#/components/LichessButton.tsx";
 import PgnViewer from "#/components/PgnViewer.tsx";
 import Section from "#/components/Section.tsx";
@@ -78,32 +80,29 @@ const Chessboard = () => {
 					</div>
 				</div>
 
-				<div className="flex gap-4">
-					{/*<button*/}
-					{/*	className="btn btn-primary"*/}
-					{/*	type="button"*/}
-					{/*	onClick={handleClearGame}*/}
-					{/*>*/}
-					{/*	Clear Game*/}
-					{/*</button>*/}
+				<div className="flex flex-col gap-4 items-center">
+					<div className="flex justify-center gap-4">
+						<button
+							className="btn btn-secondary"
+							type="button"
+							onClick={handleSavePgn}
+							disabled={!gameState.pgn}
+						>
+							Save PGN
+						</button>
 
-					<button
-						className="btn btn-secondary"
-						type="button"
-						onClick={handleSavePgn}
-						disabled={!gameState.pgn}
-					>
-						Save PGN
-					</button>
+						<button
+							className="btn btn-secondary"
+							type="button"
+							onClick={handleSavePdf}
+							disabled={!gameState.pgn || generatingPdf}
+						>
+							Save PDF
+						</button>
+					</div>
 
-					<button
-						className="btn btn-secondary"
-						type="button"
-						onClick={handleSavePdf}
-						disabled={!gameState.pgn || generatingPdf}
-					>
-						Save PDF
-					</button>
+					<HeaderFields />
+					<CustomHeaders />
 				</div>
 			</div>
 		</main>

@@ -87,8 +87,17 @@ export const useChessGame = () => {
 		});
 	};
 
-	const handleToggleDiagram = ({ ply, fen }: { ply: number; fen: string }) => {
-		console.log("Toggle diagram", ply, fen);
+	const handleToggleDiagram = () => {
+		if (!gameState.pgn) return;
+		const { ply, fen } = currentPosition;
+		if (ply === 0) return;
+		const exists = gameState.diagrams.some((d) => d.ply === ply);
+
+		gameDispatch(
+			exists
+				? { type: "DELETE_DIAGRAM", payload: { ply } }
+				: { type: "ADD_DIAGRAM", payload: { ply, fen } },
+		);
 	};
 
 	return {

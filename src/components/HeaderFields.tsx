@@ -1,6 +1,13 @@
 import FormField from "#/components/FormField.tsx";
+import type { IHeader } from "#/interfaces.ts";
 
-const HeaderFields = () => {
+interface IProps {
+	headers: IHeader;
+}
+
+const HeaderFields = ({ headers }: IProps) => {
+	console.log(headers);
+
 	return (
 		<div className="my-4 w-full">
 			<details className="bg-(--neutral-content)/20 p-4 rounded-lg">
@@ -10,19 +17,19 @@ const HeaderFields = () => {
 				</summary>
 				<div>
 					<form className="grid place-items-center gap-4 sm:grid-cols-2 mt-2">
-						<FormField fieldName="event" type="text" />
-						<FormField fieldName="site" type="text" />
-						<FormField fieldName="date" type="text" />
-						<FormField fieldName="round" type="text" />
-						<FormField fieldName="white" type="text" />
-						<FormField fieldName="black" type="text" />
-						<FormField fieldName="result" type="text" />
-						<FormField fieldName="eco" type="text" />
-						<FormField fieldName="whiteElo" type="text" />
-						<FormField fieldName="blackElo" type="text" />
-						<FormField fieldName="plyCount" type="text" />
-						<FormField fieldName="eventDate" type="text" />
-						<FormField fieldName="source" type="text" />
+						<FormField fieldName="event" type="text" headers={headers} />
+						<FormField fieldName="site" type="text" headers={headers} />
+						<FormField fieldName="date" type="text" headers={headers} />
+						<FormField fieldName="round" type="text" headers={headers} />
+						<FormField fieldName="white" type="text" headers={headers} />
+						<FormField fieldName="black" type="text" headers={headers} />
+						<FormField fieldName="result" type="text" headers={headers} />
+						<FormField fieldName="eco" type="text" headers={headers} />
+						<FormField fieldName="whiteElo" type="text" headers={headers} />
+						<FormField fieldName="blackElo" type="text" headers={headers} />
+						<FormField fieldName="plyCount" type="text" headers={headers} />
+						<FormField fieldName="eventDate" type="text" headers={headers} />
+						<FormField fieldName="source" type="text" headers={headers} />
 					</form>
 				</div>
 			</details>

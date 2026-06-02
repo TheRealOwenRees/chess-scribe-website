@@ -17,6 +17,9 @@ export interface IHeader {
 	plyCount: string;
 	eventDate: string;
 	source: string;
+	title: string;
+	subtitle: string;
+	author: string;
 	[key: string]: string;
 }
 

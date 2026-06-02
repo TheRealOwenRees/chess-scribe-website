@@ -6,7 +6,7 @@ import {
 	useState,
 } from "react";
 import { toast } from "react-toastify";
-import type { IPosition } from "#/interfaces.ts";
+import type { IHeader, IPosition } from "#/interfaces.ts";
 import { gameReducer, initialGameState } from "#/reducers/gameReducer.ts";
 import { downloadPDF } from "#/utils/pdfUtils.ts";
 import { buildPgnString, getHeaders } from "#/utils/pgnUtils.ts";
@@ -153,6 +153,18 @@ export const useChessGame = () => {
 		);
 	};
 
+	const updateHeaders = (
+		e: ChangeEvent<HTMLInputElement>,
+		fieldName: string,
+	) => {
+		e.preventDefault();
+		const updatedHeaders = {
+			...gameState.headers,
+			[fieldName]: e.target.value,
+		} as IHeader;
+		gameDispatch({ type: "SET_HEADERS", payload: updatedHeaders });
+	};
+
 	return {
 		gameState,
 		fileInputRef,
@@ -165,5 +177,6 @@ export const useChessGame = () => {
 		handleToggleDiagram,
 		currentPosition,
 		generatingPdf,
+		updateHeaders,
 	};
 };

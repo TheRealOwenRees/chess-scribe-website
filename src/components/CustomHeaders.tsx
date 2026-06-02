@@ -1,6 +1,11 @@
 import FormField from "#/components/FormField.tsx";
+import type { IHeader } from "#/interfaces.ts";
 
-const CustomHeaders = () => {
+interface IProps {
+	headers: IHeader;
+}
+
+const CustomHeaders = ({ headers }: IProps) => {
 	return (
 		<div className="my-4 w-full">
 			<details className="bg-(--neutral-content)/20 p-4 rounded-lg">
@@ -13,10 +18,10 @@ const CustomHeaders = () => {
 				</summary>
 				<div>
 					<form className="grid place-items-center gap-4 sm:grid-cols-2 mt-2">
-						<FormField fieldName="title" type="text" />
-						<FormField fieldName="subtitle" type="text" />
-						<FormField fieldName="date" type="text" />
-						<FormField fieldName="author" type="text" />
+						<FormField fieldName="title" type="text" headers={headers} />
+						<FormField fieldName="subtitle" type="text" headers={headers} />
+						<FormField fieldName="date" type="text" headers={headers} />
+						<FormField fieldName="author" type="text" headers={headers} />
 					</form>
 				</div>
 			</details>

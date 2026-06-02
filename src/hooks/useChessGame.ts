@@ -17,6 +17,8 @@ export const useChessGame = () => {
 		fen: "",
 	});
 
+	const [generatingPdf, setGeneratingPdf] = useState(false);
+
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
 
 	const handlePlyChange = ({ ply, fen }: { ply: number; fen: string }) => {
@@ -29,9 +31,8 @@ export const useChessGame = () => {
 	};
 
 	const handleSavePdf = async () => {
-		console.log("Save PDF", gameState.diagrams, gameState.diagramClock);
-
 		try {
+			setGeneratingPdf(true);
 			const { diagrams, diagramClock } = gameState;
 			const pgnString = buildPgnString(gameState);
 
@@ -63,6 +64,8 @@ export const useChessGame = () => {
 			if (error instanceof Error) {
 				// do something here such as toast
 			}
+		} finally {
+			setGeneratingPdf(false);
 		}
 	};
 

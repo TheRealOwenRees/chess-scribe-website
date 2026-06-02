@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "styles/_accordion.css";
+@import "./styles/_input.css";
 @import "./styles/_file-input.css";
 @import './styles/_pgn-viewer.css';
 

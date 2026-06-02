@@ -11,6 +11,7 @@ interface IProps {
 	handleSavePgn: () => void;
 	handleSavePdf: () => void;
 	handleToggleClock: () => void;
+	handleToggleDiagram: () => void;
 	fileInputRef: RefObject<HTMLInputElement | null>;
 }
 
@@ -21,6 +22,7 @@ const Chessboard = ({
 	handleSavePgn,
 	handleSavePdf,
 	handleToggleClock,
+	handleToggleDiagram,
 	fileInputRef,
 }: IProps) => {
 	return (
@@ -64,15 +66,30 @@ const Chessboard = ({
 				</button>
 			</div>
 			<PgnViewer gamePgn={gameState.pgn || ""} />
-			<label htmlFor="diagram-clock">
-				Render Clock Times
-				<input
-					id="diagram-clock"
-					name="diagram-clock"
-					type="checkbox"
-					onChange={handleToggleClock}
-				/>
-			</label>
+			<div className="flex justify-between max-w-150">
+				<div className="flex gap-2">
+					<label htmlFor="diagram-add">Select Diagram</label>
+					<input
+						id="diagram-add"
+						name="diagram-add"
+						type="checkbox"
+						className="cursor-pointer"
+						onChange={handleToggleDiagram}
+					/>
+				</div>
+
+				<label className="toggle">
+					Render move times
+					<input
+						id="render-times"
+						name="render-times"
+						type="checkbox"
+						checked={gameState.diagramClock}
+						onChange={handleToggleClock}
+					/>
+					<span className="slider round" />
+				</label>
+			</div>
 		</main>
 	);
 };

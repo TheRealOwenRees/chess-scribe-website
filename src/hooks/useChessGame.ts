@@ -67,9 +67,14 @@ export const useChessGame = () => {
 	};
 
 	const handleToggleClock = () => {
+		console.log("Toggle clock");
 		gameDispatch({
 			type: "TOGGLE_DIAGRAM_CLOCK",
 		});
+	};
+
+	const handleToggleDiagram = () => {
+		console.log("Toggle diagram");
 	};
 
 	return {
@@ -80,5 +85,6 @@ export const useChessGame = () => {
 		handleClearGame,
 		handleLoadPgn,
 		handleToggleClock,
+		handleToggleDiagram,
 	};
 };

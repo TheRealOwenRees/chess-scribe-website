@@ -1,9 +1,14 @@
 // ZOD
 FEN string
 Env Vars
+API base URL
 
-Loading Chessboard with suspense and spinner
+- add / edit headers
+- custom headers - title etc
+- Loading Chessboard with suspense and spinner
+- toasts
 
-Lichess login
+- Lichess login
+- stringUtils - downloadString - move it out of try / catch and let program use the try/catch
 
-stringUtils - downloadString - move it out of try / catch and let program use the try/catch
+- logger

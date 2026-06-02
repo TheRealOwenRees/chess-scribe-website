@@ -66,19 +66,24 @@ const Chessboard = ({
 				</button>
 			</div>
 			<PgnViewer gamePgn={gameState.pgn || ""} />
-			<div className="flex justify-between max-w-150">
-				<div className="flex gap-2">
-					<label htmlFor="diagram-add">Select Diagram</label>
+			<div className="flex justify-between max-w-150 mt-2">
+				<div className="flex gap-2 items-center">
+					<label
+						htmlFor="diagram-add"
+						className="text-sm text-(--base-content)"
+					>
+						Select Diagram
+					</label>
 					<input
 						id="diagram-add"
 						name="diagram-add"
 						type="checkbox"
-						className="cursor-pointer"
+						className="checkbox-accent"
 						onChange={handleToggleDiagram}
 					/>
 				</div>
 
-				<label className="toggle">
+				<label className="toggle text-sm text-(--base-content)">
 					Render move times
 					<input
 						id="render-times"

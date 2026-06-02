@@ -19,6 +19,12 @@ const PgnViewer = ({ gamePgn, handlePlyChange }: IProps) => {
 			scrollToMove: false,
 		});
 
+		// set initial position - TODO change onto file load
+		// handlePlyChange({
+		// 	ply: 0,
+		// 	fen: viewerRef.current?.curData().fen,
+		// });
+
 		const boardButtons = document.querySelectorAll(".lpv__controls");
 		const movesList = document.querySelectorAll(".lpv__moves");
 		if (!boardButtons || !movesList) return;
@@ -71,7 +77,7 @@ const PgnViewer = ({ gamePgn, handlePlyChange }: IProps) => {
 				move.removeEventListener("touchstart", clickHandlerDelay);
 			});
 		};
-	}, [gamePgn, handlePlyChange]);
+	}, [gamePgn]);
 
 	return <div ref={containerRef} className="lpv-board" />;
 };

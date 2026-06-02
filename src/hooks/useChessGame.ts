@@ -1,15 +1,25 @@
-import { type ChangeEvent, useReducer, useRef } from "react";
+import { type ChangeEvent, useReducer, useRef, useState } from "react";
 import { gameReducer, initialGameState } from "#/reducers/gameReducer.ts";
 import { buildPgnString, getHeaders } from "#/utils/pgnUtils.ts";
 import { downloadString } from "#/utils/stringUtils.ts";
 
+interface IPosition {
+	ply: number;
+	fen: string;
+}
+
 export const useChessGame = () => {
 	const [gameState, gameDispatch] = useReducer(gameReducer, initialGameState);
+
+	const [currentPosition, setCurrentPosition] = useState<IPosition>({
+		ply: 0,
+		fen: "",
+	});
+
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
 
 	const handlePlyChange = ({ ply, fen }: { ply: number; fen: string }) => {
-		console.log("Ply change", ply, fen);
-		return;
+		setCurrentPosition({ ply, fen });
 	};
 
 	const handleSavePgn = () => {
@@ -91,5 +101,6 @@ export const useChessGame = () => {
 		handleToggleClock,
 		handlePlyChange,
 		handleToggleDiagram,
+		currentPosition,
 	};
 };

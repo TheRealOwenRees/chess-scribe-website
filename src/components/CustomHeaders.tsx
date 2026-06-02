@@ -9,7 +9,7 @@ interface IProps {
 
 const CustomHeaders = ({ headers, updateHeaders }: IProps) => {
 	return (
-		<div className="my-4 w-full">
+		<div className="mt-4 w-full">
 			<details className="bg-(--neutral-content)/20 p-4 rounded-lg">
 				<summary>
 					Custom Headers (PDF)

@@ -1,3 +1,9 @@
 // ZOD
 FEN string
 Env Vars
+
+Loading Chessboard with suspense and spinner
+
+Lichess login
+
+stringUtils - downloadString - move it out of try / catch and let program use the try/catch

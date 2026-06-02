@@ -3,6 +3,7 @@ FEN string
 Env Vars
 API base URL
 
+- favicon and page titles
 - rearrange buttons / header space - collapse on smaller screens
 
 - add / edit headers

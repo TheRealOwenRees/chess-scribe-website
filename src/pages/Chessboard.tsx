@@ -12,6 +12,7 @@ interface IProps {
 	handleSavePdf: () => void;
 	handleToggleClock: () => void;
 	handleToggleDiagram: () => void;
+	handlePlyChange: ({ ply, fen }: { ply: number; fen: string }) => void;
 	fileInputRef: RefObject<HTMLInputElement | null>;
 }
 
@@ -23,6 +24,7 @@ const Chessboard = ({
 	handleSavePdf,
 	handleToggleClock,
 	handleToggleDiagram,
+	handlePlyChange,
 	fileInputRef,
 }: IProps) => {
 	return (
@@ -65,7 +67,10 @@ const Chessboard = ({
 					Save PDF
 				</button>
 			</div>
-			<PgnViewer gamePgn={gameState.pgn || ""} />
+			<PgnViewer
+				gamePgn={gameState.pgn || ""}
+				handlePlyChange={handlePlyChange}
+			/>
 			<div className="flex justify-between max-w-150 mt-2">
 				<div className="flex gap-2 items-center">
 					<label
@@ -75,8 +80,8 @@ const Chessboard = ({
 						Select Diagram
 					</label>
 					<input
-						id="diagram-add"
-						name="diagram-add"
+						id="diagram-toggle"
+						name="diagram-toggle"
 						type="checkbox"
 						className="checkbox-accent"
 						onChange={handleToggleDiagram}

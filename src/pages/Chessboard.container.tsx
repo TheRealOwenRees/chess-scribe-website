@@ -13,6 +13,7 @@ const ChessboardContainer = () => {
 			handleSavePdf={chessGameProps.handleSavePdf}
 			handleToggleClock={chessGameProps.handleToggleClock}
 			handleToggleDiagram={chessGameProps.handleToggleDiagram}
+			handlePlyChange={chessGameProps.handlePlyChange}
 			fileInputRef={chessGameProps.fileInputRef}
 		/>
 	);

@@ -7,6 +7,11 @@ export const useChessGame = () => {
 	const [gameState, gameDispatch] = useReducer(gameReducer, initialGameState);
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
 
+	const handlePlyChange = ({ ply, fen }: { ply: number; fen: string }) => {
+		console.log("Ply change", ply, fen);
+		return;
+	};
+
 	const handleSavePgn = () => {
 		const pgnString = buildPgnString(gameState);
 		downloadString(pgnString, "game.pgn");
@@ -84,6 +89,7 @@ export const useChessGame = () => {
 		handleClearGame,
 		handleLoadPgn,
 		handleToggleClock,
+		handlePlyChange,
 		handleToggleDiagram,
 	};
 };

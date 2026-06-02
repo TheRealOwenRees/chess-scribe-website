@@ -3,9 +3,10 @@ import { useEffect, useRef } from "react";
 
 interface IProps {
 	gamePgn: string;
+	handlePlyChange: ({ ply, fen }: { ply: number; fen: string }) => void;
 }
 
-const PgnViewer = ({ gamePgn }: IProps) => {
+const PgnViewer = ({ gamePgn, handlePlyChange }: IProps) => {
 	const containerRef = useRef<HTMLDivElement | null>(null);
 	const viewerRef = useRef(null);
 
@@ -18,7 +19,6 @@ const PgnViewer = ({ gamePgn }: IProps) => {
 			scrollToMove: false,
 		});
 
-		// BOARD EVENT LISTENERS - MOVE INTO HOOK?
 		const boardButtons = document.querySelectorAll(".lpv__controls");
 		const movesList = document.querySelectorAll(".lpv__moves");
 		if (!boardButtons || !movesList) return;
@@ -27,6 +27,7 @@ const PgnViewer = ({ gamePgn }: IProps) => {
 			setTimeout(() => handleClick(), 250);
 		};
 
+		// Hack using DOM manipulation
 		const boardEventListener = () => {
 			const variationTags = document.querySelector("variation");
 			const moves = [...document.querySelectorAll("move")].filter((m) => {
@@ -40,8 +41,9 @@ const PgnViewer = ({ gamePgn }: IProps) => {
 		};
 
 		const handleClick = () => {
-			const { ply, moves } = boardEventListener();
-			console.log(ply, moves);
+			const { ply } = boardEventListener();
+			const fen = viewerRef.current?.curData().fen;
+			handlePlyChange({ ply, fen });
 		};
 
 		boardButtons.forEach((button) => {
@@ -69,7 +71,7 @@ const PgnViewer = ({ gamePgn }: IProps) => {
 				move.removeEventListener("touchstart", clickHandlerDelay);
 			});
 		};
-	}, [gamePgn]);
+	}, [gamePgn, handlePlyChange]);
 
 	return <div ref={containerRef} className="lpv-board" />;
 };

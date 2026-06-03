@@ -1,13 +1,38 @@
 import LichessPgnViewer from "lichess-pgn-viewer";
-import { useEffect, useRef } from "react";
+import { type RefObject, useEffect, useRef } from "react";
 import type { IPosition } from "#/interfaces.ts";
 
 type ViewerRef = ReturnType<typeof LichessPgnViewer>;
+type HandlePlyChange = ({ ply, fen }: IPosition) => void;
+
+interface IHandleBoardClick {
+	viewerRef: RefObject<ViewerRef | null>;
+	handlePlyChange: HandlePlyChange;
+}
 
 interface IProps {
 	gamePgn: string;
-	handlePlyChange: ({ ply, fen }: IPosition) => void;
+	handlePlyChange: HandlePlyChange;
 }
+
+const getBoardEventData = () => {
+	const variationTags = document.querySelector("variation");
+	const moves = [...document.querySelectorAll("move")].filter((m) => {
+		if (!variationTags) return m.className !== "empty";
+		return m.parentNode?.querySelector("variation") && m.className !== "empty";
+	});
+	const ply = moves.findIndex((m) => m.classList.contains("current")) + 1;
+	return { moves, ply };
+};
+
+const handleBoardClick = ({
+	viewerRef,
+	handlePlyChange,
+}: IHandleBoardClick) => {
+	const { ply } = getBoardEventData();
+	const fen = viewerRef.current?.curData().fen ?? "";
+	handlePlyChange({ ply, fen });
+};
 
 export const useLichessPgnViewer = ({ gamePgn, handlePlyChange }: IProps) => {
 	const viewerRef = useRef<ViewerRef | null>(null);
@@ -25,28 +50,8 @@ export const useLichessPgnViewer = ({ gamePgn, handlePlyChange }: IProps) => {
 		const movesList = document.querySelectorAll(".lpv__moves");
 		if (!boardButtons || !movesList) return;
 
-		const clickHandlerDelay = () => {
-			setTimeout(() => handleClick(), 250);
-		};
-
-		// Hack using DOM manipulation
-		const boardEventListener = () => {
-			const variationTags = document.querySelector("variation");
-			const moves = [...document.querySelectorAll("move")].filter((m) => {
-				if (!variationTags) return m.className !== "empty";
-				return (
-					m.parentNode?.querySelector("variation") && m.className !== "empty"
-				);
-			});
-			const ply = moves.findIndex((m) => m.classList.contains("current")) + 1;
-			return { moves, ply };
-		};
-
-		const handleClick = () => {
-			const { ply } = boardEventListener();
-			const fen = viewerRef.current?.curData().fen ?? "";
-			handlePlyChange({ ply, fen });
-		};
+		const handleClick = () => handleBoardClick({ viewerRef, handlePlyChange });
+		const clickHandlerDelay = () => setTimeout(() => handleClick, 250);
 
 		boardButtons.forEach((button) => {
 			button.addEventListener("click", handleClick);

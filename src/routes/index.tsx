@@ -4,17 +4,7 @@ import Home from "#/pages";
 
 export const Route = createFileRoute("/")({
 	head: () => ({
-		meta: [
-			{ title: "ChessScribe | Home" },
-			{
-				name: "description",
-				content: "Create PDFs of your chess games from a PGN file",
-			},
-			{
-				name: "keywords",
-				content: "chess, pgn, pdf, chess games, chess notation",
-			},
-		],
+		meta: [{ title: "ChessScribe | Home" }],
 		links: [{ rel: "canonical", href: HOST_URL }],
 	}),
 	component: App,

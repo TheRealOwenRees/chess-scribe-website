@@ -1,4 +1,4 @@
-- favicon and page titles - SEO related things
+- favicon / og / json-sd
 - rearrange buttons / header space - collapse on smaller screens
 - Lichess login
 - logger
@@ -6,3 +6,4 @@
 - bring sections headers on all pages other than home page further up (reduce top margin / padding)
 - set game current position on game load to ply 0 and whatever the FEN is (starting position probably, but could be custom position)
 - privacy policy - have no access to anything you generate, only keep a count of success/failed pdf generations with timestamp and error message
+- fix SSR related console errors etc

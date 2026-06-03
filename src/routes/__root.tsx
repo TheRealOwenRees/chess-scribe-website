@@ -21,11 +21,23 @@ export const Route = createRootRoute({
 			{
 				title: "ChessScribe",
 			},
+			{
+				name: "description",
+				content: "Create PDFs of your chess games from a PGN file",
+			},
+			{
+				name: "keywords",
+				content: "chess, pgn, pdf, chess games, chess notation",
+			},
 		],
 		links: [
 			{
 				rel: "stylesheet",
 				href: appCss,
+			},
+			{
+				rel: "icon",
+				href: "/favicon.svg",
 			},
 		],
 	}),

@@ -4,3 +4,4 @@
 - logger
 - contact form
 - bring sections headers on all pages other than home page further up (reduce top margin / padding)
+- set game current position on game load to ply 0 and whatever the FEN is (starting position probably, but could be custom position)

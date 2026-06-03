@@ -9,14 +9,14 @@ interface IProps {
 
 const HeaderFields = ({ headers, updateHeaders }: IProps) => {
 	return (
-		<div className="mt-4 w-full">
+		<div className="mt-4 w-full max-w-175">
 			<details className="bg-(--neutral-content)/15 p-4 rounded-lg">
 				<summary>
 					Headers
 					<p className="text-sm font-normal">Edit the game PGN headers</p>
 				</summary>
 				<div>
-					<form className="grid place-items-center gap-4 sm:grid-cols-2 mt-2">
+					<form className="flex flex-wrap mt-2 justify-center gap-4">
 						<FormField
 							fieldName="event"
 							type="text"

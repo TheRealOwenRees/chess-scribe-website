@@ -9,7 +9,7 @@ interface IProps {
 
 const CustomHeaders = ({ headers, updateHeaders }: IProps) => {
 	return (
-		<div className="mt-4 w-full">
+		<div className="mt-4 w-full max-w-175">
 			<details className="bg-(--neutral-content)/20 p-4 rounded-lg">
 				<summary>
 					Custom Headers (PDF)
@@ -19,7 +19,7 @@ const CustomHeaders = ({ headers, updateHeaders }: IProps) => {
 					</p>
 				</summary>
 				<div>
-					<form className="grid place-items-center gap-4 sm:grid-cols-2 mt-2">
+					<form className="flex flex-wrap mt-2 justify-center gap-4">
 						<FormField
 							fieldName="title"
 							type="text"

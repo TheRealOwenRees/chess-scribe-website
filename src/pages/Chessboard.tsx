@@ -46,9 +46,9 @@ const Chessboard = () => {
 				/>
 			</Section>
 
-			<div className="grid grid-cols-2 gap-4">
+			<div className="grid lg:grid-cols-2 gap-4">
 				<Suspense fallback={<LoadingBoard />}>
-					<div>
+					<div className="mx-auto">
 						<PgnViewer
 							gamePgn={gameState.pgn || ""}
 							handlePlyChange={handlePlyChange}

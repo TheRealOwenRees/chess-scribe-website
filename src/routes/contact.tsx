@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { HOST_URL } from "#/config.ts";
-import Contact from "#/pages/Contact.tsx";
+import ContactContainer from "#/pages/Contact/Contact.container.tsx";
 
 export const Route = createFileRoute("/contact")({
 	head: () => ({
@@ -11,5 +11,5 @@ export const Route = createFileRoute("/contact")({
 });
 
 function RouteComponent() {
-	return <Contact />;
+	return <ContactContainer />;
 }

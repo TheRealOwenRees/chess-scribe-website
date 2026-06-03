@@ -40,7 +40,7 @@
 
 	&:after {
 		content: "\276F";
-		color: var(--base-content);
+		color: var(--neutral-content);
 		margin-right: 1rem;
 		transform: rotate(90deg);
 		transition: transform 0.3s ease;
@@ -48,7 +48,7 @@
 }
 
 .hero__accordion-item__title {
-	color: var(--base-content);
+	color: var(--neutral-content);
 	font-size: 1.25rem;
 	font-weight: 600;
 }

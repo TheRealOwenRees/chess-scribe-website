@@ -4,6 +4,7 @@ import { Image } from "@unpic/react";
 import { LuGithub, LuMail } from "react-icons/lu";
 
 import CoffeeWidget from "#/components/CoffeeWidget.tsx";
+import { GITHUB_URL } from "#/config.ts";
 import footerLogo from "@/assets/images/footerLogo.svg?url";
 
 export default function Footer() {
@@ -26,7 +27,7 @@ export default function Footer() {
 				</div>
 				<div className="ml-auto flex gap-2">
 					<a
-						href={import.meta.env.VITE_GITHUB_URL} // TODO ZOD
+						href={GITHUB_URL}
 						target="_blank"
 						rel="noopener noreferrer"
 						className="text-2xl hover:text-(--neutral-content) transition-colors duration-300 ease-in-out cursor-pointer"

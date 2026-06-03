@@ -29,8 +29,17 @@ export const useChessGame = () => {
 	}, []);
 
 	const handleSavePgn = () => {
-		const pgnString = buildPgnString(gameState);
-		downloadString(pgnString, "game.pgn");
+		try {
+			const pgnString = buildPgnString(gameState);
+			downloadString(pgnString, "game.pgn");
+		} catch (error) {
+			// TODO logger
+			console.error(error);
+
+			toast.error("An error occurred while saving the PGN. Please try again.", {
+				toastId: "pgn-download-error",
+			});
+		}
 	};
 
 	const handleSavePdf = async () => {

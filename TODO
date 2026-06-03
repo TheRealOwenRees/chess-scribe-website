@@ -6,12 +6,9 @@ API base URL
 - favicon and page titles
 - rearrange buttons / header space - collapse on smaller screens
 
-- add / edit headers
-- custom headers - title etc
 - Loading Chessboard with suspense and spinner
 - toasts
 
 - Lichess login
-- stringUtils - downloadString - move it out of try / catch and let program use the try/catch
 
 - logger

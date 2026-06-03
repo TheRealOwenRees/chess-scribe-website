@@ -37,27 +37,3 @@ const getEnv = () => {
 };
 
 export const env = getEnv();
-
-//
-// const isServer = typeof window === "undefined";
-// const rawEnv = isServer ? process.env : import.meta.env;
-//
-// let parsedEnv: z.infer<typeof fullSchema>;
-//
-// if (isServer) {
-// 	const _env = fullSchema.safeParse(rawEnv);
-// 	if (!_env.success) {
-// 		console.error("❌ Invalid Server Environment Variables:");
-// 		throw new Error("Invalid environment variables");
-// 	}
-// 	parsedEnv = _env.data;
-// } else {
-// 	const _env = clientSchema.safeParse(rawEnv);
-// 	if (!_env.success) {
-// 		console.error("❌ Invalid Client Environment Variables:");
-// 		throw new Error("Invalid environment variables");
-// 	}
-// 	parsedEnv = _env.data as z.infer<typeof fullSchema>;
-// }
-//
-// export const env = parsedEnv;

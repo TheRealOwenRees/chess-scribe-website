@@ -3,12 +3,9 @@ FEN string
 Env Vars
 API base URL
 
-- favicon and page titles
+- favicon and page titles - SEO related things
 - rearrange buttons / header space - collapse on smaller screens
-
 - Loading Chessboard with suspense and spinner
-- toasts
-
 - Lichess login
-
 - logger
+- contact form

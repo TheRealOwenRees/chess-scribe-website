@@ -6,6 +6,7 @@ import {
 	useState,
 } from "react";
 import { toast } from "react-toastify";
+import { env } from "#/env.ts";
 import type { IHeader, IPosition } from "#/interfaces.ts";
 import { gameReducer, initialGameState } from "#/reducers/gameReducer.ts";
 import { downloadPDF } from "#/utils/pdfUtils.ts";
@@ -48,7 +49,7 @@ export const useChessGame = () => {
 			const { diagrams, diagramClock } = gameState;
 			const pgnString = buildPgnString(gameState);
 
-			const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+			const apiBaseUrl = env.VITE_API_BASE_URL;
 
 			const response = await fetch(`${apiBaseUrl}/pdf`, {
 				method: "POST",

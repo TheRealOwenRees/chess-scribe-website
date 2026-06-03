@@ -1,10 +1,9 @@
 // ZOD
 FEN string
-Env Vars
-API base URL
 
 - favicon and page titles - SEO related things
 - rearrange buttons / header space - collapse on smaller screens
 - Lichess login
 - logger
 - contact form
+- bring sections headers on all pages other than home page further up (reduce top margin / padding)

@@ -5,7 +5,6 @@ API base URL
 
 - favicon and page titles - SEO related things
 - rearrange buttons / header space - collapse on smaller screens
-- Loading Chessboard with suspense and spinner
 - Lichess login
 - logger
 - contact form

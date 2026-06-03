@@ -10,7 +10,6 @@ const PgnViewer = lazy(() => import("#/components/PgnViewer.tsx"));
 const LoadingBoard = () => {
 	return (
 		<div className="relative grid h-125 w-160 items-center text-center">
-			<p>Loading...</p>
 			<div id="loading-bar-spinner" className="spinner">
 				<div className="spinner-icon"></div>
 			</div>

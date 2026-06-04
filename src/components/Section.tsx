@@ -14,13 +14,13 @@ const Section = ({ title, smallTitle, description, children }: IProps) => {
 
 	return (
 		<section className="mx-auto mt-8 grid max-w-5xl place-items-center gap-4 p-8 text-center md:grid-cols-3 md:text-left text-(--accent)">
-			<h3 className="md:col-span-3 mb-4 text-center text-lg font-bold tracking-wider text-primary">
+			<h3 className="col-span-full mb-4 text-center text-lg font-bold tracking-wider text-primary">
 				{smallTitle}
 			</h3>
-			<h4 className="md:col-span-3 mb-4 text-center text-4xl font-extrabold text-(--neutral-content) md:text-5xl">
+			<h4 className="col-span-full mb-4 text-center text-4xl font-extrabold text-(--neutral-content) md:text-5xl">
 				{mainTitle} <span className="text-(--accent)">{lastWord}</span>
 			</h4>
-			<p className="md:col-span-3 mb-8 w-1/2 text-center font-semibold text-(--neutral-content) ">
+			<p className="col-span-full mb-8 w-1/2 text-center font-semibold text-(--neutral-content) ">
 				{description}
 			</p>
 			{children}

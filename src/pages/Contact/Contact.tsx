@@ -65,7 +65,7 @@ const Contact = ({ handleSubmit }: IProps) => {
 			>
 				<form
 					action={formAction}
-					className="col-span-3 flex flex-col gap-6 w-full max-w-(--breakpoint-sm)"
+					className="col-span-full max-w-150 flex flex-col gap-6 w-full"
 				>
 					<FormField
 						type="text"
@@ -98,7 +98,7 @@ const Contact = ({ handleSubmit }: IProps) => {
 					<button
 						type="submit"
 						disabled={isPending}
-						className="btn btn-primary flex items-center justify-center gap-2"
+						className="btn btn-primary flex items-center justify-center gap-2 w-full"
 					>
 						{isPending ? "Sending..." : "Send"}
 						<LuSend className="w-5 h-5" />

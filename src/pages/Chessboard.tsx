@@ -53,15 +53,15 @@ const Chessboard = () => {
 							gamePgn={gameState.pgn || ""}
 							handlePlyChange={handlePlyChange}
 						/>
-						<div className="grid grid-cols-3 gap-2 max-w-150 mt-2">
+						<div className="grid grid-cols-12 gap-4 max-w-150 mt-2">
 							<button
-								className="btn btn-primary"
+								className="btn btn-primary col-span-5 flex items-center justify-center"
 								type="button"
 								onClick={handleClearGame}
 							>
-								Clear Game
+								<p className="text-sm font-semibold">Clear Game</p>
 							</button>
-							<div className="flex gap-2 items-center">
+							<div className="flex gap-1 items-center col-span-3">
 								<label
 									htmlFor="diagram-add"
 									className="text-sm text-(--base-content)"
@@ -80,7 +80,7 @@ const Chessboard = () => {
 								/>
 							</div>
 
-							<label className="toggle text-sm text-(--base-content)">
+							<label className="toggle text-sm text-(--base-content) col-span-4">
 								Render move times
 								<input
 									id="render-times"

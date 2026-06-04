@@ -1,6 +1,7 @@
 import { useActionState } from "react";
 import { LuSend } from "react-icons/lu";
 import Section from "#/components/Section.tsx";
+import { useToastStateChange } from "#/hooks/useToastStateChange.ts";
 
 interface IFormField {
 	fieldName: string;
@@ -56,6 +57,7 @@ const FormField = ({
 
 const Contact = ({ handleSubmit }: IProps) => {
 	const [state, formAction, isPending] = useActionState(handleSubmit, null);
+	useToastStateChange({ state });
 
 	return (
 		<main className="px-4 pb-8 place-self-center min-h-[calc(100vh-226px)]">
@@ -103,7 +105,7 @@ const Contact = ({ handleSubmit }: IProps) => {
 						{isPending ? "Sending..." : "Send"}
 						<LuSend className="w-5 h-5" />
 					</button>
-					{state && <p>{state.message}</p>}
+					{/*{state && <p>{state.message}</p>}*/}
 				</form>
 			</Section>
 		</main>

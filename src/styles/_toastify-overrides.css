@@ -1,0 +1,4 @@
+:root {
+	/* biome-ignore lint/complexity/noImportantStyles: <override vendor style requires !important> */
+	--toastify-color-success: var(--accent) !important;
+}

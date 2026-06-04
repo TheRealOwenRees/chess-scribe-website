@@ -4,6 +4,7 @@
 @import "./styles/_button.css";
 @import "./styles/_file-input.css";
 @import './styles/_pgn-viewer.css';
+@import "./styles/_toastify-overrides.css";
 
 @plugin "@tailwindcss/typography";
 

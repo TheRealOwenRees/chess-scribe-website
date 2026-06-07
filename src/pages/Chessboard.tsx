@@ -36,7 +36,7 @@ const Chessboard = () => {
 	return (
 		<main className="px-4 pb-8 place-self-center min-h-[calc(100vh-226px)]">
 			<Section title="Convert PGN to PDF">
-				<LichessButton onClickHandler={() => console.log("Lichess Login")} /> or{" "}
+				<LichessButton /> or{" "}
 				<input
 					type="file"
 					id="file-input"

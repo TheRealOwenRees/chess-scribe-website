@@ -1,12 +1,12 @@
-interface IProps {
-	onClickHandler: () => void;
-}
+import { useLichess } from "#/hooks/useLichess.ts";
 
-const LichessButton = ({ onClickHandler }: IProps) => {
+const LichessButton = () => {
+	const { lichessLogin, lichessLogout } = useLichess();
+
 	return (
 		<button
 			className="text-(--accent) border rounded-xl px-6 py-3 cursor-pointer flex items-center gap-2 p-2 hover:bg-(--accent) hover:text-(--header-bg) transition-colors duration-300 ease-in-out"
-			onClick={onClickHandler}
+			onClick={lichessLogin}
 			type="button"
 		>
 			<div className="w-6 h-6">

@@ -8,6 +8,12 @@ export const getToken = createServerFn({ method: "POST" }).handler(async () => {
 	console.log("getTokens");
 });
 
+export const verifyToken = createServerFn({ method: "POST" }).handler(
+	async () => {
+		console.log("verifyTokens");
+	},
+);
+
 export const login = createServerFn({ method: "POST" }).handler(async () => {
 	const createVerifier = () => base64UrlEncode(randomBytes(32));
 	const createChallenge = (verifier: string) =>

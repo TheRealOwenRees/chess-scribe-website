@@ -1,14 +1,14 @@
 import { useServerFn } from "@tanstack/react-start";
-import { useState } from "react";
+import { useLichessUser } from "#/context/LichessUserContext.tsx";
 import { getToken, login } from "#/server/lichess.ts";
 
 export const useLichess = () => {
-	const [lichessUser, setLichessUser] = useState();
+	const { user, setUser, logout } = useLichessUser();
 
 	const triggerLogin = useServerFn(login);
 	const trigggerGetToken = useServerFn(getToken);
 
-	console.log("Lichess User:", lichessUser);
+	console.log("Lichess User:", user);
 
 	const lichessTokenVerification = async ({ code }) => {
 		await trigggerGetToken();
@@ -21,6 +21,8 @@ export const useLichess = () => {
 
 	const lichessLogout = () => {
 		console.log("Lichess Logout");
+		// TODO remove cookies
+		logout();
 	};
 
 	return {

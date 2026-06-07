@@ -4,6 +4,7 @@ import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { type ReactNode, Suspense } from "react";
 import { ToastContainer } from "react-toastify";
 import { MatomoAnalytics } from "#/components/MatomoAnalytics.tsx";
+import { LichessUserProvider } from "#/context/LichessUserContext.tsx";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import appCss from "../styles.css?url";
@@ -51,21 +52,23 @@ function RootDocument({ children }: { children: ReactNode }) {
 				<HeadContent />
 			</head>
 			<body className="font-sans antialiased">
-				<Header />
-				{children}
-				<ToastContainer position="bottom-right" />
-				<Footer />
-				<TanStackDevtools
-					config={{
-						position: "bottom-right",
-					}}
-					plugins={[
-						{
-							name: "Tanstack Router",
-							render: <TanStackRouterDevtoolsPanel />,
-						},
-					]}
-				/>
+				<LichessUserProvider>
+					<Header />
+					{children}
+					<ToastContainer position="bottom-right" />
+					<Footer />
+					<TanStackDevtools
+						config={{
+							position: "bottom-right",
+						}}
+						plugins={[
+							{
+								name: "Tanstack Router",
+								render: <TanStackRouterDevtoolsPanel />,
+							},
+						]}
+					/>
+				</LichessUserProvider>
 				<Scripts />
 				<Suspense fallback={null}>
 					<MatomoAnalytics />

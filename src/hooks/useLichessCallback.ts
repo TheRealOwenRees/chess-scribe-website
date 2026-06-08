@@ -1,17 +1,26 @@
+import { useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { useLichess } from "#/hooks/useLichess.ts";
+import { useLichessOAuth } from "#/hooks/useLichessOAuth.ts";
 
 interface IProps {
 	code: string;
 }
 
 export const useLichessCallback = ({ code }: IProps) => {
-	const { lichessTokenVerification } = useLichess();
+	const navigate = useNavigate();
+
+	const { lichessAccessToken, getLichessUser, setLichessUser } =
+		useLichessOAuth();
 
 	useEffect(() => {
 		if (!code) return;
 
-		const response = lichessTokenVerification({ code });
-		console.log("Response:", response);
-	}, [code, lichessTokenVerification]);
+		(async () => {
+			const tokenData = await lichessAccessToken({ code });
+			const userData = await getLichessUser({ tokenData });
+			await setLichessUser({ username: userData.username, id: userData.id });
+			await navigate({ to: "/chessboard" });
+			// TODO set logging in state then redirect
+		})();
+	}, [code, lichessAccessToken, getLichessUser, setLichessUser, navigate]);
 };

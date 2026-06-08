@@ -1,12 +1,18 @@
-import { useLichess } from "#/hooks/useLichess.ts";
+import { useLichessUser } from "#/context/LichessUserContext.tsx";
+import { useLichessOAuth } from "#/hooks/useLichessOAuth.ts";
 
 const LichessButton = () => {
-	const { lichessLogin, lichessLogout } = useLichess();
+	const { lichessLogin, lichessLogout } = useLichessOAuth();
+	const { user, setUser, logout } = useLichessUser();
+
+	const onClickHandler = () => {
+		return user?.isLoggedIn ? lichessLogout() : lichessLogin();
+	};
 
 	return (
 		<button
 			className="text-(--accent) border rounded-xl px-6 py-3 cursor-pointer flex items-center gap-2 p-2 hover:bg-(--accent) hover:text-(--header-bg) transition-colors duration-300 ease-in-out"
-			onClick={lichessLogin}
+			onClick={onClickHandler}
 			type="button"
 		>
 			<div className="w-6 h-6">
@@ -20,7 +26,9 @@ const LichessButton = () => {
 				</svg>
 			</div>
 
-			<p>Log into Lichess.org</p>
+			<p>
+				{user?.isLoggedIn ? `Logout ${user.username}` : "Log into Lichess.org"}
+			</p>
 		</button>
 	);
 };

@@ -9,13 +9,13 @@ import {
 
 interface ILichessUser {
 	username: string;
+	id: string;
 	isLoggedIn: boolean;
 }
 
 interface ILichessUserContextType {
 	user: ILichessUser | null;
-	setUser: Dispatch<SetStateAction<ILichessUser | null>>;
-	logout: () => void;
+	setUser: Dispatch<SetStateAction<ILichessUser | null>>
 }
 
 const LichessUserContext = createContext<ILichessUserContextType | undefined>(
@@ -25,14 +25,10 @@ const LichessUserContext = createContext<ILichessUserContextType | undefined>(
 export const LichessUserProvider = ({ children }: { children: ReactNode }) => {
 	const [user, setUser] = useState<ILichessUser | null>(null);
 
-	const logout = () => {
-		setUser(null);
-	};
-
 	// TODO useEffect to check and login user on mount
 
 	return (
-		<LichessUserContext.Provider value={{ user, setUser, logout }}>
+		<LichessUserContext.Provider value={{ user, setUser }}>
 			{children}
 		</LichessUserContext.Provider>
 	);

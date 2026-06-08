@@ -4,7 +4,6 @@ import Callback from "#/pages/Callback.tsx";
 
 const callbackSchema = z.object({
 	code: z.string(),
-	state: z.string(),
 });
 
 // type CallbackProps = z.infer<typeof callbackSchema>;

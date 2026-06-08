@@ -53,7 +53,6 @@ export const useLichessOAuth = () => {
 	};
 
 	const lichessLogout = async () => {
-		console.log("Lichess Logout");
 		await logoutFn();
 		setUser(null);
 	};

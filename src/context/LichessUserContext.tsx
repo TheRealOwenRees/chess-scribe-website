@@ -1,11 +1,16 @@
+import { useServerFn } from "@tanstack/react-start";
+
 import {
 	createContext,
 	type Dispatch,
 	type ReactNode,
 	type SetStateAction,
 	useContext,
+	useEffect,
 	useState,
 } from "react";
+
+import { getSession } from "#/server/lichess.ts";
 
 interface ILichessUser {
 	username: string;
@@ -15,7 +20,7 @@ interface ILichessUser {
 
 interface ILichessUserContextType {
 	user: ILichessUser | null;
-	setUser: Dispatch<SetStateAction<ILichessUser | null>>
+	setUser: Dispatch<SetStateAction<ILichessUser | null>>;
 }
 
 const LichessUserContext = createContext<ILichessUserContextType | undefined>(
@@ -24,8 +29,20 @@ const LichessUserContext = createContext<ILichessUserContextType | undefined>(
 
 export const LichessUserProvider = ({ children }: { children: ReactNode }) => {
 	const [user, setUser] = useState<ILichessUser | null>(null);
+	const getSessionFn = useServerFn(getSession);
 
-	// TODO useEffect to check and login user on mount
+	useEffect(() => {
+		(async () => {
+			const session = await getSessionFn();
+			if (session) {
+				setUser({
+					username: session.username,
+					id: session.id,
+					isLoggedIn: true,
+				});
+			}
+		})();
+	}, [getSessionFn]);
 
 	return (
 		<LichessUserContext.Provider value={{ user, setUser }}>

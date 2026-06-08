@@ -3,7 +3,7 @@ import { useLichessOAuth } from "#/hooks/useLichessOAuth.ts";
 
 const LichessButton = () => {
 	const { lichessLogin, lichessLogout } = useLichessOAuth();
-	const { user, setUser, logout } = useLichessUser();
+	const { user } = useLichessUser();
 
 	const onClickHandler = () => {
 		return user?.isLoggedIn ? lichessLogout() : lichessLogin();

@@ -1,7 +1,11 @@
 import { randomBytes } from "node:crypto";
 import { redirect } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
-import { getCookie, setCookie, deleteCookie } from "@tanstack/react-start/server";
+import {
+	deleteCookie,
+	getCookie,
+	setCookie,
+} from "@tanstack/react-start/server";
 import { env } from "#/env.ts";
 import { base64UrlEncode, sha256 } from "#/lib/encodeDecode.ts";
 
@@ -13,13 +17,12 @@ const getRedirectUri = () =>
 		? `https://${env.LICHESS_CLIENT_ID}/callback`
 		: "http://localhost:3000/callback";
 
-// TODO fix and check
 export const getSession = createServerFn({ method: "GET" }).handler(
 	async () => {
 		const session = getCookie("lichess-session");
 		if (!session) return null;
 		try {
-			return JSON.parse(session) as { username: string };
+			return JSON.parse(session) as { username: string; id: string };
 		} catch {
 			return null;
 		}

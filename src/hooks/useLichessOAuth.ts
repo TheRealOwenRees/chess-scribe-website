@@ -1,6 +1,13 @@
 import { useServerFn } from "@tanstack/react-start";
 import { useLichessUser } from "#/context/LichessUserContext.tsx";
-import { getToken, getUser, login, setSession, logout } from "#/server/lichess.ts";
+import {
+	getSession,
+	getToken,
+	getUser,
+	login,
+	logout,
+	setSession,
+} from "#/server/lichess.ts";
 
 interface ITokenData {
 	access_token: string;
@@ -12,10 +19,11 @@ export const useLichessOAuth = () => {
 	const { setUser } = useLichessUser();
 
 	const loginFn = useServerFn(login);
-	const logoutFn = useServerFn(logout)
+	const logoutFn = useServerFn(logout);
 	const accessTokenFn = useServerFn(getToken);
 	const getUserFn = useServerFn(getUser);
 	const setSessionFn = useServerFn(setSession);
+	const getSessionFn = useServerFn(getSession);
 
 	const lichessAccessToken = async ({ code }: { code: string }) => {
 		return accessTokenFn({ data: { code } });
@@ -50,11 +58,16 @@ export const useLichessOAuth = () => {
 		setUser(null);
 	};
 
+	const getLichessSession = async () => {
+		return getSessionFn();
+	};
+
 	return {
 		lichessLogin,
 		lichessLogout,
 		lichessAccessToken,
 		getLichessUser,
 		setLichessUser,
+		getLichessSession,
 	};
 };

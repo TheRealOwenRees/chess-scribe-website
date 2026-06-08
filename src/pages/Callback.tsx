@@ -1,11 +1,12 @@
 import { getRouteApi } from "@tanstack/react-router";
-import { useLichessCallback } from "#/hooks/useLichessCallback.ts";
+import { useLichessOAuth } from "#/hooks/useLichessOAuth.ts";
 
 const routeApi = getRouteApi("/callback");
 
 const Callback = () => {
+	const { useLichessCallback } = useLichessOAuth();
 	const { code } = routeApi.useSearch();
-	useLichessCallback({ code });
+	useLichessCallback({ code }).then();
 
 	return <div>{code}</div>;
 };

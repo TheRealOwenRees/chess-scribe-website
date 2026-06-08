@@ -1,4 +1,6 @@
+import { useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
+import { useEffect } from "react";
 import { useLichessUser } from "#/context/LichessUserContext.tsx";
 import {
 	getSession,
@@ -47,19 +49,32 @@ export const useLichessOAuth = () => {
 	};
 
 	const lichessLogin = async () => {
-		// TODO add try/catch with toast
 		await loginFn();
 	};
 
 	const lichessLogout = async () => {
 		console.log("Lichess Logout");
-		// TODO remove cookies
 		await logoutFn();
 		setUser(null);
 	};
 
 	const getLichessSession = async () => {
 		return getSessionFn();
+	};
+
+	const useLichessCallback = async ({ code }: { code: string }) => {
+		const navigate = useNavigate();
+
+		useEffect(() => {
+			if (!code) return;
+
+			(async () => {
+				const tokenData = await lichessAccessToken({ code });
+				const userData = await getLichessUser({ tokenData });
+				await setLichessUser({ username: userData.username, id: userData.id });
+				await navigate({ to: "/chessboard" });
+			})();
+		}, [navigate, code]);
 	};
 
 	return {
@@ -69,5 +84,6 @@ export const useLichessOAuth = () => {
 		getLichessUser,
 		setLichessUser,
 		getLichessSession,
+		useLichessCallback,
 	};
 };

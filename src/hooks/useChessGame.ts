@@ -189,5 +189,6 @@ export const useChessGame = () => {
 		currentPosition,
 		generatingPdf,
 		updateHeaders,
+		gameDispatch,
 	};
 };

@@ -1,9 +1,11 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLichessUser } from "#/context/LichessUserContext.tsx";
+import { useChessGame } from "#/hooks/useChessGame.ts";
 import {
 	getSession,
+	getStudyChapters,
 	getToken,
 	getUser,
 	getUserStudies,
@@ -11,6 +13,7 @@ import {
 	logout,
 	setSession,
 } from "#/server/lichess.ts";
+import { getHeaders } from "#/utils/pgnUtils.ts";
 
 interface ITokenData {
 	access_token: string;
@@ -18,8 +21,26 @@ interface ITokenData {
 	token_type: string;
 }
 
+export type IUserStudy = {
+	id: string;
+	name: string;
+	createdAt: number;
+	updatedAt: number;
+};
+
+export interface IUserStudyChapter {
+	chapterId: string;
+	name: string;
+	pgn: string;
+}
+
 export const useLichess = () => {
 	const { user, setUser } = useLichessUser();
+	const [userStudies, setUserStudies] = useState<IUserStudy[]>([]);
+	const [selectedStudyId, setSelectedStudyId] = useState<string | null>(null);
+	const [studyChapters, setStudyChapters] = useState<
+		IUserStudyChapter[] | null
+	>(null);
 
 	const loginFn = useServerFn(login);
 	const logoutFn = useServerFn(logout);
@@ -28,6 +49,7 @@ export const useLichess = () => {
 	const setSessionFn = useServerFn(setSession);
 	const getSessionFn = useServerFn(getSession);
 	const getUserStudiesFn = useServerFn(getUserStudies);
+	const getStudyChaptersFn = useServerFn(getStudyChapters);
 
 	const lichessAccessToken = async ({ code }: { code: string }) => {
 		return accessTokenFn({ data: { code } });
@@ -85,7 +107,39 @@ export const useLichess = () => {
 
 	const getLichessUserStudies = async () => {
 		if (!user) throw new Error("User not found");
-		await getUserStudiesFn();
+		const studies: IUserStudy[] | undefined = await getUserStudiesFn();
+		if (!studies) return;
+		setUserStudies(studies);
+	};
+
+	const getLichessStudyChapters = async ({ studyId }: { studyId: string }) => {
+		if (!user) throw new Error("User not found");
+		const chapters: IUserStudyChapter[] | undefined = await getStudyChaptersFn({
+			data: { studyId },
+		});
+		if (!chapters) return;
+		return chapters;
+	};
+
+	// return headers and pgn from the Lichess chapter
+	const loadLichessStudyChapter = async ({
+		chapter,
+	}: {
+		chapter: IUserStudyChapter;
+	}) => {
+		const pgn = chapter.pgn.trim();
+
+		if (!chapter.pgn) throw new Error("No valid PGN found for chapter");
+
+		const headers = {
+			...getHeaders(pgn),
+			title: "",
+			subtitle: "",
+			author: "",
+		};
+
+		console.log(headers, pgn);
+		return { headers, pgn };
 	};
 
 	return {
@@ -97,5 +151,13 @@ export const useLichess = () => {
 		getLichessSession,
 		useLichessCallback,
 		getLichessUserStudies,
+		userStudies,
+		setUserStudies,
+		setSelectedStudyId,
+		selectedStudyId,
+		getLichessStudyChapters,
+		studyChapters,
+		setStudyChapters,
+		loadLichessStudyChapter,
 	};
 };

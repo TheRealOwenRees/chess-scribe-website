@@ -5,7 +5,9 @@ import LichessButton from "#/components/LichessButton.tsx";
 import LichessStudyUrlInput from "#/components/LichessStudyUrlInput.tsx";
 import Section from "#/components/Section.tsx";
 import SelectLichessStudy from "#/components/SelectLichessStudy.tsx";
+import SelectStudyChapter from "#/components/SelectStudyChapter.tsx";
 import { useChessGame } from "#/hooks/useChessGame.ts";
+import { useLichess } from "#/hooks/useLichess.ts";
 
 const PgnViewer = lazy(() => import("#/components/PgnViewer.tsx"));
 
@@ -33,7 +35,11 @@ const Chessboard = () => {
 		handleToggleDiagram,
 		handlePlyChange,
 		updateHeaders,
+		gameDispatch,
 	} = useChessGame();
+
+	const { selectedStudyId, setSelectedStudyId, setStudyChapters } =
+		useLichess();
 
 	return (
 		<main className="px-4 pb-8 place-self-center min-h-[calc(100vh-226px)]">
@@ -46,7 +52,15 @@ const Chessboard = () => {
 					className="file-input max-w-xs"
 					onChange={handleLoadPgn}
 				/>
-				<SelectLichessStudy /> or <LichessStudyUrlInput />
+				<SelectLichessStudy
+					setSelectedStudyId={setSelectedStudyId}
+					setStudyChapters={setStudyChapters}
+				/>{" "}
+				or <LichessStudyUrlInput />
+				<SelectStudyChapter
+					selectedStudyId={selectedStudyId || ""}
+					gameDispatch={gameDispatch}
+				/>
 			</Section>
 
 			<div className="grid lg:grid-cols-2 gap-4">

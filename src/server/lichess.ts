@@ -96,8 +96,6 @@ export const getToken = createServerFn({ method: "POST" })
 export const getUser = createServerFn({ method: "GET" })
 	.inputValidator((data: { access_token: string }) => data)
 	.handler(async ({ data }) => {
-		console.log(data.access_token);
-
 		const response = await fetch("https://lichess.org/api/account", {
 			headers: {
 				Authorization: `Bearer ${data.access_token}`,
@@ -178,3 +176,33 @@ export const getUserStudies = createServerFn({ method: "POST" }).handler(
 			.map((study) => JSON.parse(study));
 	},
 );
+
+export const getStudyChapters = createServerFn({ method: "POST" })
+	.inputValidator((data: { studyId: string }) => data)
+	.handler(async ({ data }) => {
+		const session = await getSession();
+
+		if (!session) return;
+
+		const response = await fetch(
+			`https://lichess.org/api/study/${data.studyId}.pgn`,
+			{
+				headers: {
+					Authorization: `Bearer ${session.token}`,
+				},
+			},
+		);
+
+		const text = await response.text();
+
+		return text
+			.trim()
+			.split(/\n{3,}/)
+			.map((game) => {
+				const eventHeaderText = game.match(/\[Event\s+"([^"]+)"]/)?.[1];
+				const eventName = eventHeaderText?.match(/(?<=:\s+)[^"]+/)?.[0] || "";
+				const siteHeaderText = game.match(/\[Site\s+"([^"]+)"]/)?.[1];
+				const chapterId = siteHeaderText?.match(/\/([^/]+)$/)?.[1] || "";
+				return { chapterId, pgn: game, name: eventName };
+			});
+	});

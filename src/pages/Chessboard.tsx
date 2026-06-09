@@ -2,7 +2,9 @@ import { lazy, Suspense } from "react";
 import CustomHeaders from "#/components/CustomHeaders.tsx";
 import HeaderFields from "#/components/HeaderFields.tsx";
 import LichessButton from "#/components/LichessButton.tsx";
+import LichessStudyUrlInput from "#/components/LichessStudyUrlInput.tsx";
 import Section from "#/components/Section.tsx";
+import SelectLichessStudy from "#/components/SelectLichessStudy.tsx";
 import { useChessGame } from "#/hooks/useChessGame.ts";
 
 const PgnViewer = lazy(() => import("#/components/PgnViewer.tsx"));
@@ -44,6 +46,7 @@ const Chessboard = () => {
 					className="file-input max-w-xs"
 					onChange={handleLoadPgn}
 				/>
+				<SelectLichessStudy /> or <LichessStudyUrlInput />
 			</Section>
 
 			<div className="grid lg:grid-cols-2 gap-4">

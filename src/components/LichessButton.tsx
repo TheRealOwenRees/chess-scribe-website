@@ -1,8 +1,8 @@
 import { useLichessUser } from "#/context/LichessUserContext.tsx";
-import { useLichessOAuth } from "#/hooks/useLichessOAuth.ts";
+import { useLichess } from "#/hooks/useLichess.ts";
 
 const LichessButton = () => {
-	const { lichessLogin, lichessLogout } = useLichessOAuth();
+	const { lichessLogin, lichessLogout } = useLichess();
 	const { user } = useLichessUser();
 
 	const onClickHandler = () => {

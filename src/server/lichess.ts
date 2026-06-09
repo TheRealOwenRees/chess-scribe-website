@@ -22,7 +22,11 @@ export const getSession = createServerFn({ method: "GET" }).handler(
 		const session = getCookie("lichess-session");
 		if (!session) return null;
 		try {
-			return JSON.parse(session) as { username: string; id: string };
+			return JSON.parse(session) as {
+				username: string;
+				id: string;
+				token: string;
+			};
 		} catch {
 			return null;
 		}
@@ -30,11 +34,17 @@ export const getSession = createServerFn({ method: "GET" }).handler(
 );
 
 export const setSession = createServerFn({ method: "POST" })
-	.inputValidator((data: { username: string; id: string }) => data)
+	.inputValidator(
+		(data: { username: string; id: string; token: string }) => data,
+	)
 	.handler(async ({ data }) => {
 		setCookie(
 			"lichess-session",
-			JSON.stringify({ username: data.username, id: data.id }),
+			JSON.stringify({
+				username: data.username,
+				id: data.id,
+				token: data.token,
+			}),
 			{
 				path: "/",
 				httpOnly: true,
@@ -86,6 +96,8 @@ export const getToken = createServerFn({ method: "POST" })
 export const getUser = createServerFn({ method: "GET" })
 	.inputValidator((data: { access_token: string }) => data)
 	.handler(async ({ data }) => {
+		console.log(data.access_token);
+
 		const response = await fetch("https://lichess.org/api/account", {
 			headers: {
 				Authorization: `Bearer ${data.access_token}`,
@@ -95,9 +107,26 @@ export const getUser = createServerFn({ method: "GET" })
 		return response.json();
 	});
 
+const deleteAccessToken = createServerFn().handler(async () => {
+	const session = await getSession();
+	const token = session?.token;
+
+	if (token) {
+		const response = await fetch("https://lichess.org/api/token", {
+			method: "DELETE",
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
+
+		return await response.json();
+	}
+});
+
 export const logout = createServerFn().handler(async () => {
+	await deleteAccessToken();
 	deleteCookie("lichess-session", { path: "/" });
-	deleteCookie("lichess-oauth-verifier", { path: "/" });
+	deleteCookie("lichess-oauth-verifier", { path: "/" }); // cookie shouldn't exist
 });
 
 export const login = createServerFn({ method: "GET" }).handler(async () => {
@@ -125,3 +154,27 @@ export const login = createServerFn({ method: "GET" }).handler(async () => {
 		href: `https://lichess.org/oauth?${params.toString()}`,
 	});
 });
+
+export const getUserStudies = createServerFn({ method: "POST" }).handler(
+	async () => {
+		const session = await getSession();
+
+		if (!session) return;
+
+		const response = await fetch(
+			`https://lichess.org/api/study/by/${session.username}`,
+			{
+				headers: {
+					Authorization: `Bearer ${session.token}`,
+				},
+			},
+		);
+
+		const studies = await response.text();
+
+		return studies
+			.trim()
+			.split("\n")
+			.map((study) => JSON.parse(study));
+	},
+);

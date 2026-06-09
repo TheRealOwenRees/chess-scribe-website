@@ -6,6 +6,7 @@ import {
 	getSession,
 	getToken,
 	getUser,
+	getUserStudies,
 	login,
 	logout,
 	setSession,
@@ -17,8 +18,8 @@ interface ITokenData {
 	token_type: string;
 }
 
-export const useLichessOAuth = () => {
-	const { setUser } = useLichessUser();
+export const useLichess = () => {
+	const { user, setUser } = useLichessUser();
 
 	const loginFn = useServerFn(login);
 	const logoutFn = useServerFn(logout);
@@ -26,6 +27,7 @@ export const useLichessOAuth = () => {
 	const getUserFn = useServerFn(getUser);
 	const setSessionFn = useServerFn(setSession);
 	const getSessionFn = useServerFn(getSession);
+	const getUserStudiesFn = useServerFn(getUserStudies);
 
 	const lichessAccessToken = async ({ code }: { code: string }) => {
 		return accessTokenFn({ data: { code } });
@@ -34,11 +36,13 @@ export const useLichessOAuth = () => {
 	const setLichessUser = async ({
 		username,
 		id,
+		token,
 	}: {
 		username: string;
 		id: string;
+		token: string;
 	}) => {
-		await setSessionFn({ data: { username, id } });
+		await setSessionFn({ data: { username, id, token } });
 		setUser({ username, id, isLoggedIn: true });
 	};
 
@@ -48,9 +52,7 @@ export const useLichessOAuth = () => {
 		});
 	};
 
-	const lichessLogin = async () => {
-		await loginFn();
-	};
+	const lichessLogin = async () => await loginFn();
 
 	const lichessLogout = async () => {
 		await logoutFn();
@@ -70,10 +72,20 @@ export const useLichessOAuth = () => {
 			(async () => {
 				const tokenData = await lichessAccessToken({ code });
 				const userData = await getLichessUser({ tokenData });
-				await setLichessUser({ username: userData.username, id: userData.id });
+
+				await setLichessUser({
+					username: userData.username,
+					id: userData.id,
+					token: tokenData.access_token,
+				});
 				await navigate({ to: "/chessboard" });
 			})();
 		}, [navigate, code]);
+	};
+
+	const getLichessUserStudies = async () => {
+		if (!user) throw new Error("User not found");
+		await getUserStudiesFn();
 	};
 
 	return {
@@ -84,5 +96,6 @@ export const useLichessOAuth = () => {
 		setLichessUser,
 		getLichessSession,
 		useLichessCallback,
+		getLichessUserStudies,
 	};
 };

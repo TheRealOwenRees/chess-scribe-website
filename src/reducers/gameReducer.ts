@@ -1,6 +1,6 @@
 import type { IGameState, IHeader, IPosition } from "#/interfaces.ts";
 
-type GameAction =
+export type GameAction =
 	| { type: "SET_GAME"; payload: { pgn: string; headers: IHeader } }
 	| { type: "CLEAR_GAME" }
 	| { type: "SET_HEADERS"; payload: IHeader }

@@ -1,9 +1,10 @@
-import { useRef, useState } from "react";
+import { useRef, useState, type Dispatch } from "react";
 import { type IUserStudyChapter, useLichess } from "#/hooks/useLichess.ts";
+import type { GameAction } from "#/reducers/gameReducer.ts";
 
 interface IProps {
 	selectedStudyId: string;
-	gameDispatch: any;
+	gameDispatch: Dispatch<GameAction>;
 }
 
 const SelectStudyChapter = ({ selectedStudyId, gameDispatch }: IProps) => {
@@ -23,7 +24,7 @@ const SelectStudyChapter = ({ selectedStudyId, gameDispatch }: IProps) => {
 	const handleChapterClick = async (chapter: IUserStudyChapter) => {
 		const { headers, pgn } = await loadLichessStudyChapter({ chapter });
 
-		gameDispatch({ type: "SET_PGN", payload: headers, pgn });
+		gameDispatch({ type: "SET_GAME", payload: { pgn, headers } });
 
 		setIsOpen(false);
 	};

@@ -2,7 +2,6 @@ import { useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
 import { useLichessUser } from "#/context/LichessUserContext.tsx";
-import { useChessGame } from "#/hooks/useChessGame.ts";
 import {
 	getSession,
 	getStudyChapters,
@@ -138,7 +137,6 @@ export const useLichess = () => {
 			author: "",
 		};
 
-		console.log(headers, pgn);
 		return { headers, pgn };
 	};
 

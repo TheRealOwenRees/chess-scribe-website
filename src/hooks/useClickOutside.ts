@@ -25,7 +25,15 @@ export const useClickOutside = ({
 			}
 		};
 
+		const handleEscape = (event: KeyboardEvent) => {
+			if (event.key === "Escape") {
+				setIsOpen(false);
+				setSearch("");
+			}
+		};
+
 		document.addEventListener("mousedown", handleClickOutside);
+		document.addEventListener("keydown", handleEscape);
 
 		return () => {
 			document.removeEventListener("mousedown", handleClickOutside);

@@ -1,4 +1,5 @@
-import { type Dispatch, useEffect, useRef, useState } from "react";
+import { type Dispatch, useRef, useState } from "react";
+import { useClickOutside } from "#/hooks/useClickOutside.ts";
 import { type IUserStudyChapter, useLichess } from "#/hooks/useLichess.ts";
 import type { GameAction } from "#/reducers/gameReducer.ts";
 
@@ -19,24 +20,7 @@ const SelectStudyChapter = ({ selectedStudyId, gameDispatch }: IProps) => {
 		chapter.name.toLowerCase().includes(search.toLowerCase()),
 	);
 
-	useEffect(() => {
-		const handleClickOutside = (event: MouseEvent) => {
-			if (
-				isOpen &&
-				dropdownRef.current &&
-				!dropdownRef.current.contains(event.target as Node)
-			) {
-				setIsOpen(false);
-				setSearch("");
-			}
-		};
-
-		document.addEventListener("mousedown", handleClickOutside);
-
-		return () => {
-			document.removeEventListener("mousedown", handleClickOutside);
-		};
-	}, [isOpen]);
+	useClickOutside({ isOpen, setIsOpen, setSearch, ref: dropdownRef });
 
 	const onClickHandler = async () => {
 		const studies = await getLichessStudyChapters({ studyId: selectedStudyId });
@@ -79,7 +63,7 @@ const SelectStudyChapter = ({ selectedStudyId, gameDispatch }: IProps) => {
 								strokeLinecap="round"
 								strokeLinejoin="round"
 							>
-								<title>link</title>
+								<title>search</title>
 								<circle cx="11" cy="11" r="8" />
 								<path d="m21 21-4.3-4.3" />
 							</svg>

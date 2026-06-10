@@ -10,7 +10,7 @@ const Home = () => (
 	<main className="px-4 pb-8 pt-14">
 		<section
 			id="hero"
-			className="grid max-w-screen-2xl items-center gap-8 p-8 text-center md:grid-cols-2 md:text-left mx-auto"
+			className="grid max-w-screen-2xl items-center gap-8 p-8 text-center md:grid-cols-2 md:text-left mx-auto md:min-h-[calc(100vh-226px)]"
 		>
 			<div>
 				<h1 className="text-3xl font-bold text-base-content md:text-4xl">

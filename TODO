@@ -5,10 +5,13 @@
 - privacy policy - have no access to anything you generate, only keep a count of success/failed pdf generations with timestamp and error message
 - a11y and lighthouse fixes
 - check wcag compliance
+- Callback page - improve loading display in suspense
+- full screen headers open changes layout - fix
 
-429 lichess error handling
+- 429 lichess error handling
 
-add throw errors or return errors in server code
-try/catch where needed in client code
+- add throw errors or return errors in server code
 
-generate state and check it against the state returned from lichess https://lichess.org/api#tag/oauth/GET/oauth
+- try/catch where needed in client code
+
+- generate state and check it against the state returned from lichess https://lichess.org/api#tag/oauth/GET/oauth

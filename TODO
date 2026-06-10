@@ -6,7 +6,6 @@
 - a11y and lighthouse fixes
 - check wcag compliance
 - Callback page - improve loading display in suspense
-- full screen headers open changes layout - fix
 - 429 lichess error handling
 - add throw errors or return errors in server code
 - try/catch where needed in client code

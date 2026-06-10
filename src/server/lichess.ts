@@ -117,8 +117,14 @@ const deleteAccessToken = createServerFn().handler(async () => {
 			},
 		});
 
-		return await response.json();
+		if (!response.ok) {
+			throw new Error(`Failed to delete access token: ${response.statusText}`);
+		}
+
+		return { success: true };
 	}
+
+	return { success: false, message: "No token found to delete." };
 });
 
 export const logout = createServerFn().handler(async () => {

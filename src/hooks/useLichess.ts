@@ -77,6 +77,7 @@ export const useLichess = () => {
 
 	const lichessLogout = async () => {
 		await logoutFn();
+		setSelectedStudyId(null);
 		setUser(null);
 	};
 

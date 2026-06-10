@@ -2,10 +2,10 @@ import { lazy, Suspense } from "react";
 import CustomHeaders from "#/components/CustomHeaders.tsx";
 import HeaderFields from "#/components/HeaderFields.tsx";
 import LichessButton from "#/components/LichessButton.tsx";
-import LichessStudyUrlInput from "#/components/LichessStudyUrlInput.tsx";
 import Section from "#/components/Section.tsx";
 import SelectLichessStudy from "#/components/SelectLichessStudy.tsx";
 import SelectStudyChapter from "#/components/SelectStudyChapter.tsx";
+import { useLichessUser } from "#/context/LichessUserContext.tsx";
 import { useChessGame } from "#/hooks/useChessGame.ts";
 import { useLichess } from "#/hooks/useLichess.ts";
 
@@ -41,6 +41,8 @@ const Chessboard = () => {
 	const { selectedStudyId, setSelectedStudyId, setStudyChapters } =
 		useLichess();
 
+	const { user } = useLichessUser();
+
 	return (
 		<main className="px-4 pb-8 place-self-center min-h-[calc(100vh-226px)]">
 			<Section title="Convert PGN to PDF">
@@ -52,15 +54,19 @@ const Chessboard = () => {
 					className="file-input max-w-xs"
 					onChange={handleLoadPgn}
 				/>
-				<SelectLichessStudy
-					setSelectedStudyId={setSelectedStudyId}
-					setStudyChapters={setStudyChapters}
-				/>{" "}
-				or <LichessStudyUrlInput />
-				<SelectStudyChapter
-					selectedStudyId={selectedStudyId || ""}
-					gameDispatch={gameDispatch}
-				/>
+				{user ? (
+					<SelectLichessStudy
+						setSelectedStudyId={setSelectedStudyId}
+						setStudyChapters={setStudyChapters}
+					/>
+				) : null}
+				<div />
+				{selectedStudyId && user ? (
+					<SelectStudyChapter
+						selectedStudyId={selectedStudyId || ""}
+						gameDispatch={gameDispatch}
+					/>
+				) : null}
 			</Section>
 
 			<div className="grid lg:grid-cols-2 gap-4">

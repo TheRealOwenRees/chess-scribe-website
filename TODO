@@ -10,3 +10,5 @@
 
 add throw errors or return errors in server code
 try/catch where needed in client code
+on logout reset selectedStudyid
+make login lichess button as wide as logout - full width?

@@ -109,6 +109,7 @@ const Chessboard = () => {
 									id="render-times"
 									name="render-times"
 									type="checkbox"
+									disabled={!gameState.pgn}
 									checked={gameState.diagramClock}
 									onChange={handleToggleClock}
 								/>

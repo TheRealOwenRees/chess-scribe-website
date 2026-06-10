@@ -9,7 +9,7 @@ interface IProps {
 
 const HeaderFields = ({ headers, updateHeaders }: IProps) => {
 	return (
-		<div className="mt-4 w-full max-w-175">
+		<div className="mt-4 w-full max-w-150">
 			<details className="bg-(--neutral-content)/15 p-4 rounded-lg">
 				<summary>
 					Headers

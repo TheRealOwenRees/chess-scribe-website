@@ -11,7 +11,7 @@ const LichessButton = () => {
 
 	return (
 		<button
-			className="text-(--accent) border rounded-xl px-6 py-3 cursor-pointer flex items-center gap-2 p-2 hover:bg-(--accent) hover:text-(--header-bg) transition-colors duration-300 ease-in-out"
+			className="w-full text-(--accent) border rounded-xl px-6 py-3 cursor-pointer flex items-center justify-center gap-2 p-2 hover:bg-(--accent) hover:text-(--header-bg) transition-colors duration-300 ease-in-out"
 			onClick={onClickHandler}
 			type="button"
 		>

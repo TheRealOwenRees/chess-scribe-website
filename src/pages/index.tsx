@@ -10,7 +10,7 @@ const Home = () => (
 	<main className="px-4 pb-8 pt-14">
 		<section
 			id="hero"
-			className="grid max-w-screen-2xl items-center gap-8 p-8 text-center md:grid-cols-2 md:text-left mx-auto md:min-h-[calc(100vh-226px)]"
+			className="relative grid max-w-screen-2xl items-center gap-8 p-8 text-center md:grid-cols-2 md:text-left mx-auto md:min-h-[calc(100vh-226px)]"
 		>
 			<div>
 				<h1 className="text-3xl font-bold text-base-content md:text-4xl">
@@ -36,6 +36,22 @@ const Home = () => (
 					height={500}
 					priority
 				/>
+			</div>
+			<div className="absolute bottom-4 left-1/2 hidden -translate-x-1/2 md:block animate-bounce text-base-content/50">
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="32"
+					height="32"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					strokeWidth="2"
+					strokeLinecap="round"
+					strokeLinejoin="round"
+				>
+					<title>scroll down</title>
+					<path d="m6 9 6 6 6-6" />
+				</svg>
 			</div>
 		</section>
 		<Section

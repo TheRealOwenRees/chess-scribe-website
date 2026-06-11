@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, notFound } from "@tanstack/react-router";
 import { z } from "zod";
 import Callback from "#/pages/Callback.tsx";
 
@@ -6,10 +6,14 @@ const callbackSchema = z.object({
 	code: z.string(),
 });
 
-// type CallbackProps = z.infer<typeof callbackSchema>;
-
 export const Route = createFileRoute("/callback")({
 	validateSearch: (search) => callbackSchema.parse(search),
+
+	beforeLoad: ({ search }) => {
+		if (!search.code) {
+			throw notFound();
+		}
+	},
 	component: RouteComponent,
 });
 

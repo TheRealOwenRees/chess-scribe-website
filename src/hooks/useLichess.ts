@@ -1,4 +1,3 @@
-import { useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
 import { useLichessUser } from "#/context/LichessUserContext.tsx";
@@ -13,6 +12,8 @@ import {
 	setSession,
 } from "#/server/lichess.ts";
 import { getHeaders } from "#/utils/pgnUtils.ts";
+
+type Status = "loading" | "success" | "error";
 
 interface ITokenData {
 	access_token: string;
@@ -85,24 +86,40 @@ export const useLichess = () => {
 		return getSessionFn();
 	};
 
-	const useLichessCallback = async ({ code }: { code: string }) => {
-		const navigate = useNavigate();
+	const useLichessCallback = ({ code }: { code: string }) => {
+		const [status, setStatus] = useState<Status>("loading");
+		const [error, setError] = useState<string | null>(null);
 
 		useEffect(() => {
 			if (!code) return;
 
-			(async () => {
-				const tokenData = await lichessAccessToken({ code });
-				const userData = await getLichessUser({ tokenData });
+			const isMounted = true;
 
-				await setLichessUser({
-					username: userData.username,
-					id: userData.id,
-					token: tokenData.access_token,
-				});
-				await navigate({ to: "/chessboard" });
-			})();
-		}, [navigate, code]);
+			try {
+				(async () => {
+					const tokenData = await lichessAccessToken({ code });
+					const userData = await getLichessUser({ tokenData });
+
+					if (!isMounted) return;
+
+					await setLichessUser({
+						username: userData.username,
+						id: userData.id,
+						token: tokenData.access_token,
+					});
+
+					setStatus("success");
+				})();
+			} catch (err: unknown) {
+				if (isMounted && err instanceof Error) {
+					console.error("Lichess Authentication Error:", err);
+					setError(err.message || "Failed to authenticate with Lichess");
+					setStatus("error");
+				}
+			}
+		}, [code]);
+
+		return { status, error };
 	};
 
 	const getLichessUserStudies = async () => {

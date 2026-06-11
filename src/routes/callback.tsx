@@ -1,5 +1,6 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { z } from "zod";
+import GenericErrorView from "#/components/Error/GenericErrorView.tsx";
 import Callback from "#/pages/Callback.tsx";
 
 const callbackSchema = z.object({
@@ -14,7 +15,11 @@ export const Route = createFileRoute("/callback")({
 			throw notFound();
 		}
 	},
+
 	component: RouteComponent,
+	errorComponent: ({ error, reset }) => (
+		<GenericErrorView error={error} resetErrorBoundary={reset} />
+	),
 });
 
 function RouteComponent() {

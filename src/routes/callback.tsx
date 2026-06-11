@@ -17,9 +17,7 @@ export const Route = createFileRoute("/callback")({
 	},
 
 	component: RouteComponent,
-	errorComponent: ({ error, reset }) => (
-		<GenericErrorView error={error} resetErrorBoundary={reset} />
-	),
+	errorComponent: ({ error }) => <GenericErrorView error={error} />,
 });
 
 function RouteComponent() {

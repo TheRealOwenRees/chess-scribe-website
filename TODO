@@ -5,7 +5,6 @@
 - privacy policy - have no access to anything you generate, only keep a count of success/failed pdf generations with timestamp and error message
 - a11y and lighthouse fixes
 - check wcag compliance
-- Callback page - improve loading display in suspense
 - 429 lichess error handling
 - add throw errors or return errors in server code
 - try/catch where needed in client code

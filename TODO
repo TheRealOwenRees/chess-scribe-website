@@ -11,4 +11,6 @@
 - try/catch where needed in client code
 - generate state and check it against the state returned from lichess https://lichess.org/api#tag/oauth/GET/oauth
 - checkbox and toggle disabled states
-- 404
+- 404 page
+- lichess data with zod validation
+- react query on for study and chapter load, to allow caching

@@ -1,4 +1,6 @@
 import { getRouteApi, useNavigate } from "@tanstack/react-router";
+import GenericErrorView from "#/components/GenericErrorView.tsx";
+import LoadingView from "#/components/LoadingView.tsx";
 import { useLichess } from "#/hooks/useLichess.ts";
 
 const routeApi = getRouteApi("/callback");
@@ -11,11 +13,11 @@ const Callback = () => {
 
 	if (status === "success") navigate({ to: "/chessboard" });
 
-	if (status === "error") {
-		console.error(error);
-	}
+	if (status === "error") return <GenericErrorView error={error} />;
 
-	return <div>Loading...</div>;
+	return (
+		<LoadingView title="Logging in..." description="Please wait a moment..." />
+	);
 };
 
 export default Callback;

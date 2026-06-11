@@ -1,6 +1,6 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { z } from "zod";
-import GenericErrorView from "#/components/Error/GenericErrorView.tsx";
+import GenericErrorView from "#/components/GenericErrorView.tsx";
 import Callback from "#/pages/Callback.tsx";
 
 const callbackSchema = z.object({

@@ -3,7 +3,8 @@ import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { type ReactNode, Suspense } from "react";
 import { ToastContainer } from "react-toastify";
-import GenericErrorView from "#/components/Error/GenericErrorView.tsx";
+import GenericErrorView from "#/components/GenericErrorView.tsx";
+import LoadingView from "#/components/LoadingView.tsx";
 import { MatomoAnalytics } from "#/components/MatomoAnalytics.tsx";
 import { LichessUserProvider } from "#/context/LichessUserContext.tsx";
 import Footer from "../components/Footer";
@@ -45,6 +46,7 @@ export const Route = createRootRoute({
 	}),
 	shellComponent: RootDocument,
 	errorComponent: ({ error }) => <GenericErrorView error={error} />,
+	pendingComponent: () => <LoadingView />,
 });
 
 function RootDocument({ children }: { children: ReactNode }) {

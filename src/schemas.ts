@@ -8,9 +8,9 @@ export const SessionSchema = z.object({
 
 export const TokenResponseSchema = z.object({
 	access_token: z.string(),
-	expires_in: z.number().optional(),
+	expires_in: z.number(),
 	scope: z.string().optional(),
-	token_type: z.string().optional(),
+	token_type: z.string(),
 });
 
 export const LichessAccountSchema = z.object({

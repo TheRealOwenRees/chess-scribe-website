@@ -1,3 +1,6 @@
+import type { infer } from "zod";
+import type { TokenResponseSchema } from "#/schemas.ts";
+
 export interface IPosition {
 	ply: number;
 	fen: string;
@@ -28,4 +31,19 @@ export interface IGameState {
 	headers: IHeader;
 	diagrams: IPosition[];
 	diagramClock: boolean;
+}
+
+export interface ITokenData extends infer<typeof TokenResponseSchema> {}
+
+export interface IUserStudy {
+	id: string;
+	name: string;
+	createdAt: number;
+	updatedAt: number;
+}
+
+export interface IUserStudyChapter {
+	chapterId: string;
+	name: string;
+	pgn: string;
 }

@@ -6,8 +6,29 @@ import {
 	getCookie,
 	setCookie,
 } from "@tanstack/react-start/server";
+import { z } from "zod";
 import { env } from "#/env.ts";
 import { base64UrlEncode, sha256 } from "#/lib/encodeDecode.ts";
+
+export const SessionSchema = z.object({
+	username: z.string(),
+	id: z.string(),
+	token: z.string(),
+});
+
+const TokenResponseSchema = z.object({
+	access_token: z.string(),
+	expires_in: z.number().optional(),
+	scope: z.string().optional(),
+	token_type: z.string().optional(),
+});
+
+const LichessAccountSchema = z.object({
+	id: z.string(),
+	username: z.string(),
+});
+
+// export type Session = z.infer<typeof SessionSchema>;
 
 const createVerifier = () => base64UrlEncode(randomBytes(32));
 const createChallenge = (verifier: string) => base64UrlEncode(sha256(verifier));
@@ -22,11 +43,8 @@ export const getSession = createServerFn({ method: "GET" }).handler(
 		const session = getCookie("lichess-session");
 		if (!session) return null;
 		try {
-			return JSON.parse(session) as {
-				username: string;
-				id: string;
-				token: string;
-			};
+			const parsed = SessionSchema.safeParse(JSON.parse(session));
+			return parsed.success ? parsed.data : null;
 		} catch {
 			return null;
 		}
@@ -34,25 +52,15 @@ export const getSession = createServerFn({ method: "GET" }).handler(
 );
 
 export const setSession = createServerFn({ method: "POST" })
-	.inputValidator(
-		(data: { username: string; id: string; token: string }) => data,
-	)
+	.inputValidator(SessionSchema)
 	.handler(async ({ data }) => {
-		setCookie(
-			"lichess-session",
-			JSON.stringify({
-				username: data.username,
-				id: data.id,
-				token: data.token,
-			}),
-			{
-				path: "/",
-				httpOnly: true,
-				secure: process.env.NODE_ENV === "production",
-				sameSite: "lax",
-				maxAge: 60 * 60 * 24 * 7,
-			},
-		);
+		setCookie("lichess-session", JSON.stringify(data), {
+			path: "/",
+			httpOnly: true,
+			secure: process.env.NODE_ENV === "production",
+			sameSite: "lax",
+			maxAge: 60 * 60 * 24 * 7,
+		});
 
 		setCookie("lichess-oauth-verifier", "", {
 			path: "/",
@@ -66,12 +74,13 @@ export const setSession = createServerFn({ method: "POST" })
 	});
 
 export const getToken = createServerFn({ method: "POST" })
-	.inputValidator((data: { code: string }) => data)
+	.inputValidator(z.object({ code: z.string() }))
 	.handler(async ({ data }) => {
 		const verifier = getCookie("lichess-oauth-verifier");
 
-		if (!verifier)
+		if (!verifier) {
 			throw new Error("OAuth session expired. Please login again.");
+		}
 
 		const response = await fetch("https://lichess.org/api/token", {
 			method: "POST",
@@ -87,14 +96,16 @@ export const getToken = createServerFn({ method: "POST" })
 			}),
 		});
 
-		if (!response.ok)
+		if (!response.ok) {
 			throw new Error(`Token exchange failed: ${await response.text()}`);
+		}
 
-		return response.json();
+		const json = await response.json();
+		return TokenResponseSchema.parse(json);
 	});
 
-export const getUser = createServerFn({ method: "GET" })
-	.inputValidator((data: { access_token: string }) => data)
+export const getUser = createServerFn({ method: "POST" })
+	.inputValidator(z.object({ access_token: z.string() }))
 	.handler(async ({ data }) => {
 		const response = await fetch("https://lichess.org/api/account", {
 			headers: {
@@ -102,7 +113,10 @@ export const getUser = createServerFn({ method: "GET" })
 			},
 		});
 
-		return response.json();
+		if (!response.ok) throw new Error("Failed to fetch Lichess account");
+
+		const json = await response.json();
+		return LichessAccountSchema.parse(json);
 	});
 
 const deleteAccessToken = createServerFn().handler(async () => {

@@ -6,7 +6,7 @@ const LichessButton = () => {
 	const { user } = useLichessUser();
 
 	const onClickHandler = () => {
-		return user?.isLoggedIn ? lichessLogout() : lichessLogin();
+		return user ? lichessLogout() : lichessLogin();
 	};
 
 	return (

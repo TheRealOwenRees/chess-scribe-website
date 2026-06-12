@@ -26,9 +26,7 @@ const LichessButton = () => {
 				</svg>
 			</div>
 
-			<p>
-				{user?.isLoggedIn ? `Logout ${user.username}` : "Log into Lichess.org"}
-			</p>
+			<p>{user ? `Logout ${user.username}` : "Log into Lichess.org"}</p>
 		</button>
 	);
 };

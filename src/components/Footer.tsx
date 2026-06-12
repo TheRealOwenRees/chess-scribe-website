@@ -18,6 +18,7 @@ export default function Footer() {
 						width={10}
 						height={10}
 						className="hidden h-10 w-10 sm:block"
+						aria-label="ChessScribe Logo"
 					/>
 				</Link>
 				<div>
@@ -30,6 +31,7 @@ export default function Footer() {
 						href={GITHUB_URL}
 						target="_blank"
 						rel="noopener noreferrer"
+						aria-label="GitHub"
 						className="text-2xl hover:text-(--neutral-content) transition-colors duration-300 ease-in-out cursor-pointer"
 					>
 						<LuGithub />
@@ -38,6 +40,7 @@ export default function Footer() {
 					<Link
 						to="/contact"
 						rel="noopener noreferrer"
+						aria-label="Contact"
 						className="text-2xl hover:text-(--neutral-content) transition-colors duration-300 ease-in-out"
 					>
 						<LuMail />

@@ -2,10 +2,11 @@
 - logger
 - set game current position on game load to ply 0 and whatever the FEN is (starting position probably, but could be custom position)
 - privacy policy - have no access to anything you generate, only keep a count of success/failed pdf generations with timestamp and error message
-- a11y and lighthouse fixes
+- a11y and lighthouse fixes - heading tags error, color contrast,
 - check wcag compliance
 - 429 lichess error handling - retry after 10 seconds
 - try/catch where needed in client code
 - generate state and check it against the state returned from lichess https://lichess.org/api#tag/oauth/GET/oauth
 - checkbox and toggle disabled states
 - react query on for study and chapter load, to allow caching
+- https://specification.website/checklist/

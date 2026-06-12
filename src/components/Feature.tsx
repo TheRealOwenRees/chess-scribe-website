@@ -7,7 +7,7 @@ interface IProps {
 
 const Feature = ({ title, children }: IProps) => (
 	<div className="mb-auto">
-		<h6 className="text-(--neutral-content) text-2xl font-bold">{title}</h6>
+		<h5 className="text-(--neutral-content) text-2xl font-bold">{title}</h5>
 		<p className="text-(--neutral-content) font-medium" data-testid="text">
 			{children}
 		</p>

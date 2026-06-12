@@ -19,6 +19,14 @@ const config = defineConfig({
 				enabled: true,
 				crawlLinks: true,
 			},
+			pages: [
+				{
+					path: "/callback",
+					prerender: {
+						enabled: false,
+					},
+				},
+			],
 			sitemap: {
 				enabled: true,
 				host: HOST_URL,

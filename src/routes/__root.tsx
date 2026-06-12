@@ -6,6 +6,7 @@ import { ToastContainer } from "react-toastify";
 import GenericErrorView from "#/components/GenericErrorView.tsx";
 import LoadingView from "#/components/LoadingView.tsx";
 import { MatomoAnalytics } from "#/components/MatomoAnalytics.tsx";
+import NotFoundView from "#/components/NotFoundView.tsx";
 import { LichessUserProvider } from "#/context/LichessUserContext.tsx";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
@@ -47,6 +48,7 @@ export const Route = createRootRoute({
 	shellComponent: RootDocument,
 	errorComponent: ({ error }) => <GenericErrorView error={error} />,
 	pendingComponent: () => <LoadingView />,
+	notFoundComponent: () => <NotFoundView />,
 });
 
 function RootDocument({ children }: { children: ReactNode }) {

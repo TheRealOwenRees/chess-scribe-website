@@ -15,7 +15,6 @@ import { getSession } from "#/server/lichess.ts";
 interface ILichessUser {
 	username: string;
 	id: string;
-	isLoggedIn: boolean;
 }
 
 interface ILichessUserContextType {
@@ -38,7 +37,6 @@ export const LichessUserProvider = ({ children }: { children: ReactNode }) => {
 				setUser({
 					username: session.username,
 					id: session.id,
-					isLoggedIn: true,
 				});
 			}
 		})();

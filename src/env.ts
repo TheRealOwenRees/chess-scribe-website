@@ -2,6 +2,8 @@ import { z } from "zod";
 
 const clientSchema = z.object({
 	VITE_API_BASE_URL: z.string("Invalid API Base URL format"),
+	VITE_MATOMO_URL: z.string("Invalid URL format"),
+	VITE_MATOMO_SITE_ID: z.string("Invalid Site ID"),
 });
 
 const serverSchema = z.object({

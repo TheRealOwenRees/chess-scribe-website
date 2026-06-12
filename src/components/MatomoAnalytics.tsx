@@ -1,9 +1,10 @@
 import { trackAppRouter } from "@socialgouv/matomo-next";
 import { useLocation, useSearch } from "@tanstack/react-router";
 import { useEffect } from "react";
+import { env } from "#/env.ts";
 
-const MATOMO_URL = import.meta.env.NEXT_PUBLIC_MATOMO_URL;
-const MATOMO_SITE_ID = import.meta.env.NEXT_PUBLIC_MATOMO_SITE_ID;
+const MATOMO_URL = env.VITE_MATOMO_URL;
+const MATOMO_SITE_ID = env.VITE_MATOMO_SITE_ID;
 
 export function MatomoAnalytics() {
 	const location = useLocation();

@@ -1,5 +1,21 @@
 import type { infer } from "zod";
-import type { TokenResponseSchema } from "#/schemas.ts";
+import type { SessionSchema, TokenResponseSchema } from "#/schemas.ts";
+
+export interface ISession extends infer<typeof SessionSchema> {}
+export interface ITokenData extends infer<typeof TokenResponseSchema> {}
+
+export interface IUserStudy {
+	id: string;
+	name: string;
+	createdAt: number;
+	updatedAt: number;
+}
+
+export interface IUserStudyChapter {
+	chapterId: string;
+	name: string;
+	pgn: string;
+}
 
 export interface IPosition {
 	ply: number;
@@ -31,19 +47,4 @@ export interface IGameState {
 	headers: IHeader;
 	diagrams: IPosition[];
 	diagramClock: boolean;
-}
-
-export interface ITokenData extends infer<typeof TokenResponseSchema> {}
-
-export interface IUserStudy {
-	id: string;
-	name: string;
-	createdAt: number;
-	updatedAt: number;
-}
-
-export interface IUserStudyChapter {
-	chapterId: string;
-	name: string;
-	pgn: string;
 }

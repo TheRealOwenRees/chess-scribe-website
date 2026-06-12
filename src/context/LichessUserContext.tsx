@@ -9,13 +9,10 @@ import {
 	useEffect,
 	useState,
 } from "react";
-
+import type { ISession } from "#/interfaces.ts";
 import { getSession } from "#/server/lichess.ts";
 
-interface ILichessUser {
-	username: string;
-	id: string;
-}
+interface ILichessUser extends Omit<ISession, "token"> {}
 
 interface ILichessUserContextType {
 	user: ILichessUser | null;

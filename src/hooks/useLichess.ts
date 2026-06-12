@@ -1,6 +1,11 @@
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
 import { useLichessUser } from "#/context/LichessUserContext.tsx";
+import type {
+	ITokenData,
+	IUserStudy,
+	IUserStudyChapter,
+} from "#/interfaces.ts";
 import {
 	getSession,
 	getStudyChapters,
@@ -14,25 +19,6 @@ import {
 import { getHeaders } from "#/utils/pgnUtils.ts";
 
 type Status = "loading" | "success" | "error";
-
-interface ITokenData {
-	access_token: string;
-	expires_in: number;
-	token_type: string;
-}
-
-export type IUserStudy = {
-	id: string;
-	name: string;
-	createdAt: number;
-	updatedAt: number;
-};
-
-export interface IUserStudyChapter {
-	chapterId: string;
-	name: string;
-	pgn: string;
-}
 
 export const useLichess = () => {
 	const { user, setUser } = useLichessUser();
@@ -65,7 +51,7 @@ export const useLichess = () => {
 		token: string;
 	}) => {
 		await setSessionFn({ data: { username, id, token } });
-		setUser({ username, id, isLoggedIn: true });
+		setUser({ username, id });
 	};
 
 	const getLichessUser = async ({ tokenData }: { tokenData: ITokenData }) => {

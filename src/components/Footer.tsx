@@ -11,7 +11,7 @@ export default function Footer() {
 	return (
 		<footer className="text-white w-full grid-cols-2 items-center bg-(--accent) px-10 py-5">
 			<div className="flex w-full items-center gap-2">
-				<Link to="/">
+				<Link to="/" aria-label="Home">
 					<Image
 						src={footerLogo}
 						alt="ChessScribe Logo"

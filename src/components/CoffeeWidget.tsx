@@ -13,6 +13,7 @@ const CoffeeWidget = ({ height, width }: IProps) => {
 			target="_blank"
 			className="ml-auto flex items-center gap-2 text-sm"
 			rel="noopener"
+			aria-label="Buy Me A Coffee"
 		>
 			<Image
 				src={buyMeACoffeeLogo}

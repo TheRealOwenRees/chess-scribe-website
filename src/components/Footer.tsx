@@ -10,7 +10,7 @@ import footerLogo from "@/assets/images/footerLogo.svg?url";
 export default function Footer() {
 	return (
 		<footer className="text-white w-full grid-cols-2 items-center bg-(--accent) px-10 py-5">
-			<div className="flex w-full items-center">
+			<div className="flex w-full items-center gap-2">
 				<Link to="/">
 					<Image
 						src={footerLogo}
@@ -22,9 +22,7 @@ export default function Footer() {
 					/>
 				</Link>
 				<div>
-					<p data-testid="copyright">
-						Copyright © 2023 - {new Date().getFullYear()}
-					</p>
+					<p>© 2023 - {new Date().getFullYear()}</p>
 				</div>
 				<div className="ml-auto flex gap-2">
 					<a

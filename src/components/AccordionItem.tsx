@@ -9,10 +9,7 @@ interface IProps {
 const AccordionItem = ({ title, id, children }: IProps) => (
 	<div className="hero__accordion-item">
 		<details className="hero__accordion-details" name="linked">
-			<summary
-				className="hero__accordion-item__summary"
-				aria-describedby={title}
-			>
+			<summary className="hero__accordion-item__summary" id={`${id}-summary`}>
 				<span className="hero__accordion-item__title-container">
 					<span className="hero__accordion-item__title">{title}</span>
 				</span>

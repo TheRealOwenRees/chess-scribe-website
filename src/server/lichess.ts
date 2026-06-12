@@ -9,26 +9,11 @@ import {
 import { z } from "zod";
 import { env } from "#/env.ts";
 import { base64UrlEncode, sha256 } from "#/lib/encodeDecode.ts";
-
-export const SessionSchema = z.object({
-	username: z.string(),
-	id: z.string(),
-	token: z.string(),
-});
-
-const TokenResponseSchema = z.object({
-	access_token: z.string(),
-	expires_in: z.number().optional(),
-	scope: z.string().optional(),
-	token_type: z.string().optional(),
-});
-
-const LichessAccountSchema = z.object({
-	id: z.string(),
-	username: z.string(),
-});
-
-// export type Session = z.infer<typeof SessionSchema>;
+import {
+	LichessAccountSchema,
+	SessionSchema,
+	TokenResponseSchema,
+} from "#/schemas.ts";
 
 const createVerifier = () => base64UrlEncode(randomBytes(32));
 const createChallenge = (verifier: string) => base64UrlEncode(sha256(verifier));

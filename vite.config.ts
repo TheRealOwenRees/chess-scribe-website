@@ -25,6 +25,9 @@ const config = defineConfig({
 					prerender: {
 						enabled: false,
 					},
+					sitemap: {
+						exclude: true,
+					},
 				},
 			],
 			sitemap: {

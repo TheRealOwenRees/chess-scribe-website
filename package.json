@@ -9,11 +9,12 @@
     "dev": "vite dev --port 3000 --host",
     "build": "vite build",
     "preview": "vite preview",
+    "start": "node .output/server/index.mjs",
     "test": "vitest run",
+    "lint:fix": "biome lint --write",
     "format": "biome format",
     "format:fix": "biome format --write",
     "lint": "biome lint",
-    "lint:fix": "biome lint --write",
     "check": "biome check"
   },
   "dependencies": {

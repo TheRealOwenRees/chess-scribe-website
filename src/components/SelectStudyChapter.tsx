@@ -44,30 +44,21 @@ const SelectStudyChapter = ({ selectedStudyId, gameDispatch }: IProps) => {
 					error: "No study selected.",
 				} satisfies ChapterState;
 			}
-			try {
-				const studies = await getLichessStudyChapters({
-					studyId: selectedStudyId,
-				});
-				if (!studies) {
-					return {
-						status: "error",
-						chapters: [],
-						error: "No chapters found.",
-					} satisfies ChapterState;
-				}
+			const result = await getLichessStudyChapters({
+				studyId: selectedStudyId,
+			});
+			if (result.ok) {
 				return {
 					status: "success",
-					chapters: studies,
+					chapters: result.data,
 					error: null,
 				} satisfies ChapterState;
-			} catch (err) {
-				return {
-					status: "error",
-					chapters: [],
-					error:
-						err instanceof Error ? err.message : "Failed to load chapters.",
-				} satisfies ChapterState;
 			}
+			return {
+				status: "error",
+				chapters: [],
+				error: result.error,
+			} satisfies ChapterState;
 		},
 		initialChapterState,
 	);
@@ -79,20 +70,10 @@ const SelectStudyChapter = ({ selectedStudyId, gameDispatch }: IProps) => {
 	useClickOutside({ isOpen, setIsOpen, setSearch, ref: dropdownRef });
 
 	useEffect(() => {
-		if (
-			isPending ||
-			chapterState.status === "success" ||
-			chapterState.status === "error"
-		) {
+		if (isPending || chapterState.status === "success") {
 			setIsOpen(true);
 		}
 	}, [isPending, chapterState.status]);
-
-	useEffect(() => {
-		if (chapterState.status === "error" && chapterState.error) {
-			toast.error(chapterState.error, { toastId: "chapters-fetch-error" });
-		}
-	}, [chapterState]);
 
 	const handleChapterClick = async (chapter: IUserStudyChapter) => {
 		const { headers, pgn } = await loadLichessStudyChapter({ chapter });
@@ -101,6 +82,7 @@ const SelectStudyChapter = ({ selectedStudyId, gameDispatch }: IProps) => {
 
 		setIsOpen(false);
 		setSearch("");
+		toast.success(`Loaded chapter "${chapter.name}"`);
 	};
 
 	return (

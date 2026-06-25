@@ -24,11 +24,12 @@ const LichessStudyLinkInput = ({ setSelectedStudyId }: IProps) => {
 		const result = parseLichessStudyLink(studyLink);
 
 		if (!result.ok) {
-			toast.error("Invalid study link");
+			toast.error(result.error);
 			return;
 		}
 
-		setSelectedStudyId(result.studyId);
+		setSelectedStudyId(result.data);
+		toast.success("Study loaded — pick a chapter");
 	};
 
 	return (

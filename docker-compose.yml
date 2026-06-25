@@ -1,0 +1,14 @@
+services:
+  chess-scribe-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: chess-scribe-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    env_file:
+      - .env
+    restart: unless-stopped

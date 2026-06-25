@@ -1,16 +1,16 @@
 import { useRef, useState } from "react";
+import { toast } from "react-toastify";
 import { useClickOutside } from "#/hooks/useClickOutside.ts";
-import { type IUserStudyChapter, useLichess } from "#/hooks/useLichess.ts";
+import { useLichess } from "#/hooks/useLichess.ts";
 
 interface IProps {
 	setSelectedStudyId: (studyId: string) => void;
-	setStudyChapters: (chapters: IUserStudyChapter[]) => void;
 }
 
 const SelectLichessStudy = ({ setSelectedStudyId }: IProps) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [search, setSearch] = useState("");
-	const { getLichessUserStudies, userStudies } = useLichess();
+	const { getLichessUserStudies, userStudies, setUserStudies } = useLichess();
 	const dropdownRef = useRef<HTMLDivElement>(null);
 
 	const filteredStudies = userStudies.filter((study) =>
@@ -20,15 +20,20 @@ const SelectLichessStudy = ({ setSelectedStudyId }: IProps) => {
 	const onClickHandler = async () => {
 		setIsOpen(!isOpen);
 
-		if (!userStudies.length) {
-			await getLichessUserStudies();
+		if (userStudies.length) return;
+
+		const result = await getLichessUserStudies();
+		if (result.ok) {
+			setUserStudies(result.data);
 		}
 	};
 
 	const handleStudyClick = async (studyId: string) => {
+		const study = userStudies.find((s) => s.id === studyId);
 		setSelectedStudyId(studyId);
 		setIsOpen(false);
 		setSearch("");
+		toast.success(`Loaded study "${study?.name ?? studyId}"`);
 	};
 
 	useClickOutside({ isOpen, setIsOpen, setSearch, ref: dropdownRef });

@@ -4,6 +4,8 @@ const clientSchema = z.object({
 	VITE_API_BASE_URL: z.string("Invalid API Base URL format"),
 	VITE_MATOMO_URL: z.string("Invalid URL format"),
 	VITE_MATOMO_SITE_ID: z.string("Invalid Site ID"),
+	VITE_MAINTENANCE_MODE: z.string("Invalid Maintenance Mode"),
+	VITE_MAINTENANCE_MODE_MESSAGE: z.string().optional(),
 });
 
 const serverSchema = z.object({

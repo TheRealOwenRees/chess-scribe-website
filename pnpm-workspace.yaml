@@ -1,0 +1,9 @@
+# pnpm v11 configuration file
+packages:
+  - "."
+
+# This replaces 'onlyBuiltDependencies'
+allowBuilds:
+  "sharp": true
+  "esbuild": true
+  "lightningcss": true

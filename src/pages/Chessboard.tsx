@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import CustomHeaders from "#/components/CustomHeaders.tsx";
 import HeaderFields from "#/components/HeaderFields.tsx";
 import LichessButton from "#/components/LichessButton.tsx";
+import LichessStudyLinkInput from "#/components/LichessStudyLinkInput.tsx";
 import Section from "#/components/Section.tsx";
 import SelectLichessStudy from "#/components/SelectLichessStudy.tsx";
 import SelectStudyChapter from "#/components/SelectStudyChapter.tsx";
@@ -38,8 +39,7 @@ const Chessboard = () => {
 		gameDispatch,
 	} = useChessGame();
 
-	const { selectedStudyId, setSelectedStudyId, setStudyChapters } =
-		useLichess();
+	const { selectedStudyId, setSelectedStudyId } = useLichess();
 
 	const { user } = useLichessUser();
 
@@ -55,17 +55,17 @@ const Chessboard = () => {
 					onChange={handleLoadPgn}
 				/>
 				{user ? (
-					<SelectLichessStudy
-						setSelectedStudyId={setSelectedStudyId}
-						setStudyChapters={setStudyChapters}
-					/>
+					<SelectLichessStudy setSelectedStudyId={setSelectedStudyId} />
 				) : null}
 				<div />
-				{selectedStudyId && user ? (
+				{user ? (
 					<SelectStudyChapter
 						selectedStudyId={selectedStudyId || ""}
 						gameDispatch={gameDispatch}
 					/>
+				) : null}
+				{user ? (
+					<LichessStudyLinkInput setSelectedStudyId={setSelectedStudyId} />
 				) : null}
 			</Section>
 

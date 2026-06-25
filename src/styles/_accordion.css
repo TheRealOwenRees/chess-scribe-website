@@ -17,6 +17,19 @@
 	border-bottom: 1px solid var(--neutral-content);
 }
 
+.hero__accordion-item__content {
+	padding: 0 10px;
+	display: grid;
+	grid-template-rows: 0fr;
+	transition:
+		grid-template-rows 0.3s ease,
+		padding 0.3s ease;
+
+	@media (prefers-reduced-motion) {
+		transition: none;
+	}
+}
+
 .hero__accordion-details[open] + .hero__accordion-item__content {
 	grid-template-rows: 1fr;
 	padding: 10px;
@@ -51,19 +64,6 @@
 	color: var(--neutral-content);
 	font-size: 1.25rem;
 	font-weight: 600;
-}
-
-.hero__accordion-item__content {
-	padding: 0 10px;
-	display: grid;
-	grid-template-rows: 0fr;
-	transition:
-		grid-template-rows 0.3s ease,
-		padding 0.3s ease;
-
-	@media (prefers-reduced-motion) {
-		transition: none;
-	}
 }
 
 .hero__accordion-item__content__inner {

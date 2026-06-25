@@ -1,3 +1,4 @@
+import { useServerFn } from "@tanstack/react-start";
 import {
 	type ChangeEvent,
 	useCallback,
@@ -9,12 +10,15 @@ import { toast } from "react-toastify";
 import { env } from "#/env.ts";
 import type { IHeader, IPosition } from "#/interfaces.ts";
 import { gameReducer, initialGameState } from "#/reducers/gameReducer.ts";
+import { recordPdfSuccess } from "#/server/pdfMetrics.ts";
 import { downloadPDF } from "#/utils/pdfUtils.ts";
 import { buildPgnString, getHeaders } from "#/utils/pgnUtils.ts";
 import { downloadString } from "#/utils/stringUtils.ts";
 
 export const useChessGame = () => {
 	const [gameState, gameDispatch] = useReducer(gameReducer, initialGameState);
+
+	const recordPdfSuccessFn = useServerFn(recordPdfSuccess);
 
 	const [currentPosition, setCurrentPosition] = useState<IPosition>({
 		ply: 0,
@@ -66,7 +70,7 @@ export const useChessGame = () => {
 			if (response.ok) {
 				downloadPDF(await response.blob());
 
-				// TODO add metrics logger - add success to analytics
+				await recordPdfSuccessFn();
 
 				toast.success("PDF successfully generated!", {
 					toastId: "pdf-success",

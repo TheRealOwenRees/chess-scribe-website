@@ -20,13 +20,35 @@ import { getHeaders } from "#/utils/pgnUtils.ts";
 
 type Status = "loading" | "success" | "error";
 
+export type LichessResult<T> =
+	| { ok: true; data: T }
+	| { ok: false; error: string };
+
+const LICHESS_STUDY_LINK_RE =
+	/^https?:\/\/lichess\.org\/study\/([A-Za-z0-9]{8})(?:\.pgn)?(?:$|\/|\?|#)/i;
+
+const lichessFetch = async <T>(
+	fn: () => Promise<T | undefined>,
+	fallbackError: string,
+): Promise<LichessResult<T>> => {
+	try {
+		const data = await fn();
+		if (data === undefined || data === null) {
+			return { ok: false, error: fallbackError };
+		}
+		return { ok: true, data };
+	} catch (err) {
+		return {
+			ok: false,
+			error: err instanceof Error ? err.message : fallbackError,
+		};
+	}
+};
+
 export const useLichess = () => {
 	const { user, setUser } = useLichessUser();
 	const [userStudies, setUserStudies] = useState<IUserStudy[]>([]);
 	const [selectedStudyId, setSelectedStudyId] = useState<string | null>(null);
-	const [studyChapters, setStudyChapters] = useState<
-		IUserStudyChapter[] | null
-	>(null);
 
 	const loginFn = useServerFn(login);
 	const logoutFn = useServerFn(logout);
@@ -108,20 +130,23 @@ export const useLichess = () => {
 		return { status, error };
 	};
 
-	const getLichessUserStudies = async () => {
-		if (!user) throw new Error("User not found");
-		const studies: IUserStudy[] | undefined = await getUserStudiesFn();
-		if (!studies) return;
-		setUserStudies(studies);
+	const getLichessUserStudies = async (): Promise<
+		LichessResult<IUserStudy[]>
+	> => {
+		if (!user) return { ok: false, error: "Not signed in to Lichess." };
+		return lichessFetch(() => getUserStudiesFn(), "Failed to load studies.");
 	};
 
-	const getLichessStudyChapters = async ({ studyId }: { studyId: string }) => {
-		if (!user) throw new Error("User not found");
-		const chapters: IUserStudyChapter[] | undefined = await getStudyChaptersFn({
-			data: { studyId },
-		});
-		if (!chapters) return;
-		return chapters;
+	const getLichessStudyChapters = async ({
+		studyId,
+	}: {
+		studyId: string;
+	}): Promise<LichessResult<IUserStudyChapter[]>> => {
+		if (!user) return { ok: false, error: "Not signed in to Lichess." };
+		return lichessFetch(
+			() => getStudyChaptersFn({ data: { studyId } }),
+			"Failed to load chapters.",
+		);
 	};
 
 	// return headers and pgn from the Lichess chapter
@@ -144,6 +169,23 @@ export const useLichess = () => {
 		return { headers, pgn };
 	};
 
+	// parse and process lichess study link
+	const parseLichessStudyLink = (studyLink: string): LichessResult<string> => {
+		const trimmed = studyLink.trim();
+
+		if (!trimmed) {
+			return { ok: false, error: "Please paste a Lichess study link." };
+		}
+
+		const match = trimmed.match(LICHESS_STUDY_LINK_RE);
+
+		if (!match) {
+			return { ok: false, error: "Invalid Lichess study link." };
+		}
+
+		return { ok: true, data: match[1] };
+	};
+
 	return {
 		lichessLogin,
 		lichessLogout,
@@ -158,8 +200,7 @@ export const useLichess = () => {
 		setSelectedStudyId,
 		selectedStudyId,
 		getLichessStudyChapters,
-		studyChapters,
-		setStudyChapters,
 		loadLichessStudyChapter,
+		parseLichessStudyLink,
 	};
 };

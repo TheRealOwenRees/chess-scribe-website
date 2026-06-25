@@ -9,3 +9,7 @@
 - checkbox and toggle disabled states
 - react query on for study and chapter load, to allow caching
 - https://specification.website/checklist/
+
+- Custom headers do not work - the subtitle is appearing above every thing on first page, and the game starts 2nd page
+
+- react query to cache the study and chapters

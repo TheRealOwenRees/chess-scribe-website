@@ -1,6 +1,14 @@
-import { type Dispatch, useRef, useState } from "react";
+import {
+	type Dispatch,
+	useActionState,
+	useEffect,
+	useRef,
+	useState,
+} from "react";
+import { toast } from "react-toastify";
 import { useClickOutside } from "#/hooks/useClickOutside.ts";
-import { type IUserStudyChapter, useLichess } from "#/hooks/useLichess.ts";
+import { useLichess } from "#/hooks/useLichess.ts";
+import type { IUserStudyChapter } from "#/interfaces.ts";
 import type { GameAction } from "#/reducers/gameReducer.ts";
 
 interface IProps {
@@ -8,26 +16,64 @@ interface IProps {
 	gameDispatch: Dispatch<GameAction>;
 }
 
+type ChapterState = {
+	status: "idle" | "success" | "error";
+	chapters: IUserStudyChapter[];
+	error: string | null;
+};
+
+const initialChapterState: ChapterState = {
+	status: "idle",
+	chapters: [],
+	error: null,
+};
+
 const SelectStudyChapter = ({ selectedStudyId, gameDispatch }: IProps) => {
 	const [isOpen, setIsOpen] = useState(false);
-	const [studyChapters, setStudyChapters] = useState<IUserStudyChapter[]>([]);
 	const [search, setSearch] = useState("");
 	const dropdownRef = useRef<HTMLDivElement>(null);
 
 	const { getLichessStudyChapters, loadLichessStudyChapter } = useLichess();
 
-	const filteredChapters = studyChapters.filter((chapter) =>
+	const [chapterState, fetchChaptersAction, isPending] = useActionState(
+		async (_prev: ChapterState, _formData: FormData): Promise<ChapterState> => {
+			if (!selectedStudyId) {
+				return {
+					status: "error",
+					chapters: [],
+					error: "No study selected.",
+				} satisfies ChapterState;
+			}
+			const result = await getLichessStudyChapters({
+				studyId: selectedStudyId,
+			});
+			if (result.ok) {
+				return {
+					status: "success",
+					chapters: result.data,
+					error: null,
+				} satisfies ChapterState;
+			}
+			return {
+				status: "error",
+				chapters: [],
+				error: result.error,
+			} satisfies ChapterState;
+		},
+		initialChapterState,
+	);
+
+	const filteredChapters = chapterState.chapters.filter((chapter) =>
 		chapter.name.toLowerCase().includes(search.toLowerCase()),
 	);
 
 	useClickOutside({ isOpen, setIsOpen, setSearch, ref: dropdownRef });
 
-	const onClickHandler = async () => {
-		const studies = await getLichessStudyChapters({ studyId: selectedStudyId });
-		if (!studies) return;
-		setStudyChapters(studies);
-		setIsOpen(!isOpen);
-	};
+	useEffect(() => {
+		if (isPending || chapterState.status === "success") {
+			setIsOpen(true);
+		}
+	}, [isPending, chapterState.status]);
 
 	const handleChapterClick = async (chapter: IUserStudyChapter) => {
 		const { headers, pgn } = await loadLichessStudyChapter({ chapter });
@@ -36,16 +82,22 @@ const SelectStudyChapter = ({ selectedStudyId, gameDispatch }: IProps) => {
 
 		setIsOpen(false);
 		setSearch("");
+		toast.success(`Loaded chapter "${chapter.name}"`);
 	};
 
 	return (
-		<div ref={dropdownRef} className="relative">
+		<form
+			key={selectedStudyId}
+			action={fetchChaptersAction}
+			className="relative"
+		>
+			<input type="hidden" name="studyId" value={selectedStudyId} />
 			<button
-				type="button"
+				type="submit"
 				className="btn btn-secondary"
-				onClick={onClickHandler}
+				disabled={!selectedStudyId || isPending}
 			>
-				Import Study Chapter/Game
+				{isPending ? "Loading chapters…" : "Import Chapter"}
 			</button>
 
 			{isOpen ? (
@@ -79,7 +131,11 @@ const SelectStudyChapter = ({ selectedStudyId, gameDispatch }: IProps) => {
 
 					<hr className="border-(--neutral-content)/15 my-2" />
 
-					{filteredChapters.length > 0 ? (
+					{isPending ? (
+						<p className="text-(--neutral-content) text-sm text-center py-4">
+							Loading chapters…
+						</p>
+					) : filteredChapters.length > 0 ? (
 						<ul>
 							{filteredChapters.map((chapter) => (
 								<li key={`${chapter.chapterId}${chapter.name}`}>
@@ -100,7 +156,7 @@ const SelectStudyChapter = ({ selectedStudyId, gameDispatch }: IProps) => {
 					)}
 				</div>
 			) : null}
-		</div>
+		</form>
 	);
 };
 

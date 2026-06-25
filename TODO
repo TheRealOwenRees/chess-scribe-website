@@ -12,5 +12,4 @@
 
 - Custom headers do not work - the subtitle is appearing above every thing on first page, and the game starts 2nd page
 
-- toasts on success loading of study, chapters etc, errors
 - react query to cache the study and chapters

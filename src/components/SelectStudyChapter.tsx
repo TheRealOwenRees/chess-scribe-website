@@ -115,7 +115,7 @@ const SelectStudyChapter = ({ selectedStudyId, gameDispatch }: IProps) => {
 				className="btn btn-secondary"
 				disabled={!selectedStudyId || isPending}
 			>
-				{isPending ? "Loading chapters…" : "Import Study Chapter/Game"}
+				{isPending ? "Loading chapters…" : "Import Chapter"}
 			</button>
 
 			{isOpen ? (

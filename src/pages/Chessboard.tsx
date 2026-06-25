@@ -39,8 +39,7 @@ const Chessboard = () => {
 		gameDispatch,
 	} = useChessGame();
 
-	const { selectedStudyId, setSelectedStudyId, setStudyChapters } =
-		useLichess();
+	const { selectedStudyId, setSelectedStudyId } = useLichess();
 
 	const { user } = useLichessUser();
 
@@ -56,10 +55,7 @@ const Chessboard = () => {
 					onChange={handleLoadPgn}
 				/>
 				{user ? (
-					<SelectLichessStudy
-						setSelectedStudyId={setSelectedStudyId}
-						setStudyChapters={setStudyChapters}
-					/>
+					<SelectLichessStudy setSelectedStudyId={setSelectedStudyId} />
 				) : null}
 				<div />
 				{user ? (

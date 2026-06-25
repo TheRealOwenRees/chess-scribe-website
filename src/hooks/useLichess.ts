@@ -20,13 +20,17 @@ import { getHeaders } from "#/utils/pgnUtils.ts";
 
 type Status = "loading" | "success" | "error";
 
+type ParseLichessStudyLinkResult =
+	| { ok: true; studyId: string }
+	| { ok: false; error: string };
+
+const LICHESS_STUDY_LINK_RE =
+	/^https?:\/\/lichess\.org\/study\/([A-Za-z0-9]{8})(?:\.pgn)?(?:$|\/|\?|#)/i;
+
 export const useLichess = () => {
 	const { user, setUser } = useLichessUser();
 	const [userStudies, setUserStudies] = useState<IUserStudy[]>([]);
 	const [selectedStudyId, setSelectedStudyId] = useState<string | null>(null);
-	const [studyChapters, setStudyChapters] = useState<
-		IUserStudyChapter[] | null
-	>(null);
 
 	const loginFn = useServerFn(login);
 	const logoutFn = useServerFn(logout);
@@ -145,30 +149,22 @@ export const useLichess = () => {
 	};
 
 	// parse and process lichess study link
-	const parseLichessStudyLink = (studyLink: string) => {
-		if (studyLink.trim().includes("lichess.org/study")) {
-			const studyId = studyLink.split("/").pop();
+	const parseLichessStudyLink = (
+		studyLink: string,
+	): ParseLichessStudyLinkResult => {
+		const trimmed = studyLink.trim();
 
-			if (studyId && studyId.length > 0) {
-				return {
-					ok: true,
-					error: null,
-					studyId,
-				};
-			}
-
-			return { error: "Invalid study link" };
+		if (!trimmed) {
+			return { ok: false, error: "Please paste a Lichess study link." };
 		}
 
-		if (studyLink.trim().match(/\W/g)) {
-			return { error: "Invalid study link" };
+		const match = trimmed.match(LICHESS_STUDY_LINK_RE);
+
+		if (!match) {
+			return { ok: false, error: "Invalid Lichess study link." };
 		}
 
-		return {
-			ok: true,
-			error: null,
-			studyId: studyLink.trim(),
-		};
+		return { ok: true, studyId: match[1] };
 	};
 
 	return {
@@ -185,8 +181,6 @@ export const useLichess = () => {
 		setSelectedStudyId,
 		selectedStudyId,
 		getLichessStudyChapters,
-		studyChapters,
-		setStudyChapters,
 		loadLichessStudyChapter,
 		parseLichessStudyLink,
 	};

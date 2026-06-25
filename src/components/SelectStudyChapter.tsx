@@ -1,6 +1,7 @@
 import { type Dispatch, useRef, useState } from "react";
 import { useClickOutside } from "#/hooks/useClickOutside.ts";
-import { type IUserStudyChapter, useLichess } from "#/hooks/useLichess.ts";
+import { useLichess } from "#/hooks/useLichess.ts";
+import type { IUserStudyChapter } from "#/interfaces.ts";
 import type { GameAction } from "#/reducers/gameReducer.ts";
 
 interface IProps {
@@ -44,6 +45,7 @@ const SelectStudyChapter = ({ selectedStudyId, gameDispatch }: IProps) => {
 				type="button"
 				className="btn btn-secondary"
 				onClick={onClickHandler}
+				disabled={!selectedStudyId}
 			>
 				Import Study Chapter/Game
 			</button>

@@ -61,12 +61,13 @@ const Chessboard = () => {
 					/>
 				) : null}
 				<div />
-				{selectedStudyId && user ? (
+				{user ? (
 					<SelectStudyChapter
 						selectedStudyId={selectedStudyId || ""}
 						gameDispatch={gameDispatch}
 					/>
 				) : null}
+				{user ? <p>input</p> : null}
 			</Section>
 
 			<div className="grid lg:grid-cols-2 gap-4">

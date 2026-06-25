@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { useClickOutside } from "#/hooks/useClickOutside.ts";
-import { type IUserStudyChapter, useLichess } from "#/hooks/useLichess.ts";
+import { useLichess } from "#/hooks/useLichess.ts";
+import type { IUserStudyChapter } from "#/interfaces.ts";
 
 interface IProps {
 	setSelectedStudyId: (studyId: string) => void;

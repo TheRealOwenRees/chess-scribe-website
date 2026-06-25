@@ -11,3 +11,6 @@
 - https://specification.website/checklist/
 
 - Custom headers do not work - the subtitle is appearing above every thing on first page, and the game starts 2nd page
+
+- toasts on success loading of study, chapters etc, errors
+- Loading button on import study (this is where i think react query will be useful to cache)

@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import CustomHeaders from "#/components/CustomHeaders.tsx";
 import HeaderFields from "#/components/HeaderFields.tsx";
 import LichessButton from "#/components/LichessButton.tsx";
+import LichessStudyLinkInput from "#/components/LichessStudyLinkInput.tsx";
 import Section from "#/components/Section.tsx";
 import SelectLichessStudy from "#/components/SelectLichessStudy.tsx";
 import SelectStudyChapter from "#/components/SelectStudyChapter.tsx";
@@ -67,7 +68,9 @@ const Chessboard = () => {
 						gameDispatch={gameDispatch}
 					/>
 				) : null}
-				{user ? <p>input</p> : null}
+				{user ? (
+					<LichessStudyLinkInput setSelectedStudyId={setSelectedStudyId} />
+				) : null}
 			</Section>
 
 			<div className="grid lg:grid-cols-2 gap-4">

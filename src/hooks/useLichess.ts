@@ -144,6 +144,33 @@ export const useLichess = () => {
 		return { headers, pgn };
 	};
 
+	// parse and process lichess study link
+	const parseLichessStudyLink = (studyLink: string) => {
+		if (studyLink.trim().includes("lichess.org/study")) {
+			const studyId = studyLink.split("/").pop();
+
+			if (studyId && studyId.length > 0) {
+				return {
+					ok: true,
+					error: null,
+					studyId,
+				};
+			}
+
+			return { error: "Invalid study link" };
+		}
+
+		if (studyLink.trim().match(/\W/g)) {
+			return { error: "Invalid study link" };
+		}
+
+		return {
+			ok: true,
+			error: null,
+			studyId: studyLink.trim(),
+		};
+	};
+
 	return {
 		lichessLogin,
 		lichessLogout,
@@ -161,5 +188,6 @@ export const useLichess = () => {
 		studyChapters,
 		setStudyChapters,
 		loadLichessStudyChapter,
+		parseLichessStudyLink,
 	};
 };

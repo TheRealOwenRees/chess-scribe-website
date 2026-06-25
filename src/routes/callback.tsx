@@ -8,6 +8,10 @@ const callbackSchema = z.object({
 });
 
 export const Route = createFileRoute("/callback")({
+	head: () => ({
+		meta: [{ name: "robots", content: "noindex, nofollow" }],
+	}),
+
 	validateSearch: (search) => callbackSchema.parse(search),
 
 	beforeLoad: ({ search }) => {

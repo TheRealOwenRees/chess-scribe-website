@@ -2,11 +2,11 @@ import {
 	type Dispatch,
 	useActionState,
 	useEffect,
-	useRef,
+	// useRef,
 	useState,
 } from "react";
 import { toast } from "react-toastify";
-import { useClickOutside } from "#/hooks/useClickOutside.ts";
+// import { useClickOutside } from "#/hooks/useClickOutside.ts";
 import { useLichess } from "#/hooks/useLichess.ts";
 import type { IUserStudyChapter } from "#/interfaces.ts";
 import type { GameAction } from "#/reducers/gameReducer.ts";
@@ -31,7 +31,7 @@ const initialChapterState: ChapterState = {
 const SelectStudyChapter = ({ selectedStudyId, gameDispatch }: IProps) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [search, setSearch] = useState("");
-	const dropdownRef = useRef<HTMLDivElement>(null);
+	// const dropdownRef = useRef<HTMLDivElement>(null);
 
 	const { getLichessStudyChapters, loadLichessStudyChapter } = useLichess();
 
@@ -47,6 +47,9 @@ const SelectStudyChapter = ({ selectedStudyId, gameDispatch }: IProps) => {
 			const result = await getLichessStudyChapters({
 				studyId: selectedStudyId,
 			});
+
+			console.log(result);
+
 			if (result.ok) {
 				return {
 					status: "success",
@@ -54,6 +57,7 @@ const SelectStudyChapter = ({ selectedStudyId, gameDispatch }: IProps) => {
 					error: null,
 				} satisfies ChapterState;
 			}
+
 			return {
 				status: "error",
 				chapters: [],
@@ -67,7 +71,7 @@ const SelectStudyChapter = ({ selectedStudyId, gameDispatch }: IProps) => {
 		chapter.name.toLowerCase().includes(search.toLowerCase()),
 	);
 
-	useClickOutside({ isOpen, setIsOpen, setSearch, ref: dropdownRef });
+	// useClickOutside({ isOpen, setIsOpen, setSearch, ref: dropdownRef });
 
 	useEffect(() => {
 		if (isPending || chapterState.status === "success") {

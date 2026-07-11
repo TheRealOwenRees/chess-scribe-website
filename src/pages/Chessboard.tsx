@@ -65,7 +65,10 @@ const Chessboard = () => {
 					/>
 				) : null}
 				{user ? (
-					<LichessStudyLinkInput setSelectedStudyId={setSelectedStudyId} />
+					<div className="flex flex-col">
+						<p className="text-center">or</p>
+						<LichessStudyLinkInput setSelectedStudyId={setSelectedStudyId} />
+					</div>
 				) : null}
 			</Section>
 

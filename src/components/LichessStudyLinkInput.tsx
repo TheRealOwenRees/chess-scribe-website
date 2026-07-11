@@ -28,6 +28,8 @@ const LichessStudyLinkInput = ({ setSelectedStudyId }: IProps) => {
 			return;
 		}
 
+		console.log(result.data);
+
 		setSelectedStudyId(result.data);
 		toast.success("Study loaded — pick a chapter");
 	};

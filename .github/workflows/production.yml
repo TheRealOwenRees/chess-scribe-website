@@ -32,6 +32,12 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          build-args: |
+            VITE_API_BASE_URL=http://chess-pdf-api:5000/api/v1
+            VITE_MATOMO_URL=https://analytics.owenrees.eu
+            VITE_MATOMO_SITE_ID=3
+            VITE_MAINTENANCE_MODE=
+            VITE_MAINTENANCE_MODE_MESSAGE=ChessScribe is currently undergoing maintenance. Some features may be unavailable.
 
   deploy:
     needs: publish

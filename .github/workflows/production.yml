@@ -36,7 +36,7 @@ jobs:
             VITE_API_BASE_URL=https://api.chess-scribe.org/api/v1
             VITE_MATOMO_URL=https://analytics.owenrees.eu
             VITE_MATOMO_SITE_ID="3"
-            VITE_MAINTENANCE_MODE="true"
+            VITE_MAINTENANCE_MODE=""
             VITE_MAINTENANCE_MODE_MESSAGE="ChessScribe is currently undergoing maintenance. Some features may be unavailable."
 
   deploy:

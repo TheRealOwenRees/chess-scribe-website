@@ -9,8 +9,8 @@ const clientSchema = z.object({
 });
 
 const serverSchema = z.object({
-	DISCORD_CONTACT_WEBHOOK: z.url("Invalid Discord Contact Webhook URL"),
-	DISCORD_ERROR_LOG_WEBHOOK: z.url("Invalid Discord Error Log Webhook URL"),
+	DISCORD_CONTACT_WEBHOOK: z.string("Invalid Discord Contact Webhook URL"),
+	DISCORD_ERROR_LOG_WEBHOOK: z.string("Invalid Discord Error Log Webhook URL"),
 	LICHESS_CLIENT_ID: z.string("Invalid Lichess Client ID"),
 });
 

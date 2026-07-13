@@ -27,6 +27,7 @@ const getEnv = () => {
 		const _env = fullSchema.safeParse(rawEnv);
 		if (!_env.success) {
 			console.error("❌ Invalid Server Environment Variables:");
+			console.error(JSON.stringify(_env.error.format(), null, 2));
 			throw new Error("Invalid environment variables");
 		}
 		return _env.data;
@@ -34,6 +35,7 @@ const getEnv = () => {
 		const _env = clientSchema.safeParse(rawEnv);
 		if (!_env.success) {
 			console.error("❌ Invalid Client Environment Variables:");
+			console.error(JSON.stringify(_env.error.format(), null, 2));
 			throw new Error("Invalid environment variables");
 		}
 		return _env.data as z.infer<typeof fullSchema>;

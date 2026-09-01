@@ -30,8 +30,10 @@ jobs:
           context: .
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+#          cache-from: type=gha
+#          cache-to: type=gha,mode=max
+          cache-from: ""
+          cache-to: ""
           build-args: |
             VITE_API_BASE_URL=https://api.chess-scribe.org/api/v1
             VITE_MATOMO_URL=https://analytics.owenrees.eu

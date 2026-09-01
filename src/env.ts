@@ -4,7 +4,9 @@ const clientSchema = z.object({
 	VITE_API_BASE_URL: z.url("Invalid API Base URL format"),
 	VITE_MATOMO_URL: z.url("Invalid URL format"),
 	VITE_MATOMO_SITE_ID: z.string("Invalid Site ID"),
-	VITE_MAINTENANCE_MODE: z.string("Invalid Maintenance Mode"),
+	VITE_MAINTENANCE_MODE: z
+		.enum(["true", "false"], 'Invalid Maintenance Mode (must be "true" or "false")')
+		.transform((v) => v === "true"),
 	VITE_MAINTENANCE_MODE_MESSAGE: z.string().optional(),
 });
 

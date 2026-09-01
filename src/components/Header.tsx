@@ -1,17 +1,16 @@
 import { Link } from "@tanstack/react-router";
 import { Image } from "@unpic/react";
-import { z } from "zod";
 import MaintenanceModeBanner from "#/components/MaintenanceModeBanner.tsx";
 import { env } from "#/env.ts";
 import logo from "@/assets/images/logo.svg?url";
 
+const DEFAULT_MAINTENANCE_MESSAGE = "Maintenance Mode";
+
 export default function Header() {
-	const maintenanceModeMessage = env.VITE_MAINTENANCE_MODE
-		? z
-				.string()
-				.transform((value) => (value.trim() === "" ? null : value))
-				.parse(env.VITE_MAINTENANCE_MODE_MESSAGE)
-		: null;
+	const maintenanceModeMessage =
+		env.VITE_MAINTENANCE_MODE ?
+			env.VITE_MAINTENANCE_MODE_MESSAGE?.trim() || DEFAULT_MAINTENANCE_MESSAGE
+		:	null;
 
 	return (
 		<header>

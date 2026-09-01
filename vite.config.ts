@@ -9,6 +9,7 @@ import { defineConfig } from "vite";
 import { HOST_URL } from "#/config.ts";
 
 const config = defineConfig({
+	base: "/",
 	resolve: { tsconfigPaths: true },
 	plugins: [
 		devtools(),

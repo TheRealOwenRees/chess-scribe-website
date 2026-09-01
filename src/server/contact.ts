@@ -7,6 +7,10 @@ export const sendToDiscord = createServerFn({ method: "POST" })
 			data,
 	)
 	.handler(async ({ data }) => {
+		if (!env.DISCORD_CONTACT_WEBHOOK) {
+			return { ok: false, error: "Contact form is not configured" };
+		}
+
 		const response = await fetch(env.DISCORD_CONTACT_WEBHOOK, {
 			method: "POST",
 			headers: {

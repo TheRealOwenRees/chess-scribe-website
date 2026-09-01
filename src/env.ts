@@ -5,15 +5,22 @@ const clientSchema = z.object({
 	VITE_MATOMO_URL: z.url("Invalid URL format"),
 	VITE_MATOMO_SITE_ID: z.string("Invalid Site ID"),
 	VITE_MAINTENANCE_MODE: z
-		.enum(["true", "false"], 'Invalid Maintenance Mode (must be "true" or "false")')
+		.enum(
+			["true", "false"],
+			'Invalid Maintenance Mode (must be "true" or "false")',
+		)
 		.transform((v) => v === "true"),
 	VITE_MAINTENANCE_MODE_MESSAGE: z.string().optional(),
 });
 
 const serverSchema = z.object({
-	DISCORD_CONTACT_WEBHOOK: z.string("Invalid Discord Contact Webhook URL"),
-	DISCORD_ERROR_LOG_WEBHOOK: z.string("Invalid Discord Error Log Webhook URL"),
-	LICHESS_CLIENT_ID: z.string("Invalid Lichess Client ID"),
+	DISCORD_CONTACT_WEBHOOK: z
+		.string("Invalid Discord Contact Webhook URL")
+		.optional(),
+	DISCORD_ERROR_LOG_WEBHOOK: z
+		.string("Invalid Discord Error Log Webhook URL")
+		.optional(),
+	LICHESS_CLIENT_ID: z.string("Invalid Lichess Client ID").optional(),
 });
 
 const fullSchema = z.object({

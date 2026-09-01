@@ -18,10 +18,14 @@ import {
 const createVerifier = () => base64UrlEncode(randomBytes(32));
 const createChallenge = (verifier: string) => base64UrlEncode(sha256(verifier));
 
-const getRedirectUri = () =>
-	process.env.NODE_ENV === "production"
+const getRedirectUri = () => {
+	if (process.env.NODE_ENV === "production" && !env.LICHESS_CLIENT_ID) {
+		throw new Error("LICHESS_CLIENT_ID is not configured");
+	}
+	return process.env.NODE_ENV === "production"
 		? `https://${env.LICHESS_CLIENT_ID}/callback`
 		: "http://localhost:3000/callback";
+};
 
 export const getSession = createServerFn({ method: "GET" }).handler(
 	async () => {

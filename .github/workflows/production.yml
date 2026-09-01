@@ -32,8 +32,7 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 #          cache-from: type=gha
 #          cache-to: type=gha,mode=max
-          cache-from: ""
-          cache-to: ""
+          no-cache: true
           build-args: |
             VITE_API_BASE_URL=https://api.chess-scribe.org/api/v1
             VITE_MATOMO_URL=https://analytics.owenrees.eu
@@ -58,4 +57,4 @@ jobs:
             cd /home/${{ secrets.USERNAME }}
             echo "${{ secrets.GHCR_SECRET }}" | docker login ghcr.io -u ${{ env.GH_USER }} --password-stdin
             docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-            docker compose up -d
+            docker compose up -d --force-recreate --remove-orphans

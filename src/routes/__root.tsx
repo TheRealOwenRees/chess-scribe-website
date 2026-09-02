@@ -35,10 +35,12 @@ export const Route = createRootRoute({
 			},
 		],
 		links: [
-			{
-				rel: "stylesheet",
-				href: appCss,
-			},
+			// {
+			// 	rel: "stylesheet",
+			// 	href: appCss,
+			// },
+			...(import.meta.env.DEV ? [{ rel: "stylesheet", href: appCss }] : []),
+
 			{
 				rel: "icon",
 				href: "/favicon.svg",

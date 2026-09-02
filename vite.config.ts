@@ -20,6 +20,11 @@ const config = defineConfig({
 				crawlLinks: true,
 				failOnError: true,
 			},
+			server: {
+				build: {
+					inlineCss: true,
+				},
+			},
 			pages: [
 				{
 					path: "/callback",

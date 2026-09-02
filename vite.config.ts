@@ -12,8 +12,8 @@ const config = defineConfig({
 	resolve: { tsconfigPaths: true },
 	plugins: [
 		devtools(),
-		nitro({ rollupConfig: { external: [/^@sentry\//] } }),
 		tailwindcss(),
+		viteReact(),
 		tanstackStart({
 			prerender: {
 				enabled: true,
@@ -36,7 +36,7 @@ const config = defineConfig({
 				host: HOST_URL,
 			},
 		}),
-		viteReact(),
+		nitro({ rollupConfig: { external: [/^@sentry\//] } }),
 	],
 });
 

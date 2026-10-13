@@ -26,6 +26,7 @@ export function MatomoAnalytics() {
 			enableHeartBeatTimer: true,
 			cleanUrl: true,
 			disableCookies: true,
+			useProxy: false,
 			debug: import.meta.env.DEV,
 		});
 	}, [location.pathname, searchParams]);

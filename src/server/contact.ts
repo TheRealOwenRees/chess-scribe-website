@@ -2,7 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { env } from "#/env.ts";
 
 export const sendToDiscord = createServerFn({ method: "POST" })
-	.inputValidator(
+	.validator(
 		(data: { name: string; email: string; subject: string; message: string }) =>
 			data,
 	)

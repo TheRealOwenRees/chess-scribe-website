@@ -13,7 +13,6 @@ const config = defineConfig({
 	plugins: [
 		devtools(),
 		tailwindcss(),
-		viteReact(),
 		tanstackStart({
 			prerender: {
 				enabled: true,
@@ -36,6 +35,7 @@ const config = defineConfig({
 				host: HOST_URL,
 			},
 		}),
+		viteReact(),
 		nitro({ rollupConfig: { external: [/^@sentry\//] } }),
 	],
 });

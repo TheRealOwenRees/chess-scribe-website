@@ -41,7 +41,7 @@ export const getSession = createServerFn({ method: "GET" }).handler(
 );
 
 export const setSession = createServerFn({ method: "POST" })
-	.inputValidator(SessionSchema)
+	.validator(SessionSchema)
 	.handler(async ({ data }) => {
 		setCookie("lichess-session", JSON.stringify(data), {
 			path: "/",
@@ -63,7 +63,7 @@ export const setSession = createServerFn({ method: "POST" })
 	});
 
 export const getToken = createServerFn({ method: "POST" })
-	.inputValidator(z.object({ code: z.string() }))
+	.validator(z.object({ code: z.string() }))
 	.handler(async ({ data }) => {
 		const verifier = getCookie("lichess-oauth-verifier");
 
@@ -94,7 +94,7 @@ export const getToken = createServerFn({ method: "POST" })
 	});
 
 export const getUser = createServerFn({ method: "POST" })
-	.inputValidator(z.object({ access_token: z.string() }))
+	.validator(z.object({ access_token: z.string() }))
 	.handler(async ({ data }) => {
 		const response = await fetch("https://lichess.org/api/account", {
 			headers: {
@@ -187,7 +187,7 @@ export const getUserStudies = createServerFn({ method: "POST" }).handler(
 );
 
 export const getStudyChapters = createServerFn({ method: "POST" })
-	.inputValidator((data: { studyId: string }) => data)
+	.validator((data: { studyId: string }) => data)
 	.handler(async ({ data }) => {
 		const session = await getSession();
 

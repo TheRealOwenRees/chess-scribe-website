@@ -10,7 +10,7 @@ import NotFoundView from "#/components/NotFoundView.tsx";
 import { LichessUserProvider } from "#/context/LichessUserContext.tsx";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import appCss from "../styles.css?url";
+import "../styles.css";
 
 export const Route = createRootRoute({
 	head: () => ({
@@ -35,10 +35,6 @@ export const Route = createRootRoute({
 			},
 		],
 		links: [
-			{
-				rel: "stylesheet",
-				href: appCss,
-			},
 			{
 				rel: "icon",
 				href: "/favicon.svg",
@@ -89,10 +85,10 @@ function RootDocument({ children }: { children: ReactNode }) {
 						]}
 					/>
 				</LichessUserProvider>
-				<Scripts />
 				<Suspense fallback={null}>
 					<MatomoAnalytics />
 				</Suspense>
+				<Scripts />
 			</body>
 		</html>
 	);

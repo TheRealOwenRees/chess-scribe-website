@@ -1,5 +1,9 @@
 import type { IGameState } from "#/interfaces.ts";
 
+// A stable identifier for a diagram position: the SAN move sequence from the
+// root. This distinguishes mainline and variation positions that share a ply.
+export const diagramKey = (path: string[]) => path.join(" ");
+
 export const getHeaders = (pgn: string) => {
 	const pgnHeader = pgn.split(/\n\n/g)[0];
 

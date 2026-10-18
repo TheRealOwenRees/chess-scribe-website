@@ -20,6 +20,7 @@ export interface IUserStudyChapter {
 export interface IPosition {
 	ply: number;
 	fen: string;
+	path: string[];
 }
 
 export interface IHeader {

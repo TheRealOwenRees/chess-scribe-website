@@ -9,6 +9,7 @@ import SelectStudyChapter from "#/components/SelectStudyChapter.tsx";
 import { useLichessUser } from "#/context/LichessUserContext.tsx";
 import { useChessGame } from "#/hooks/useChessGame.ts";
 import { useLichess } from "#/hooks/useLichess.ts";
+import { diagramKey } from "#/utils/pgnUtils.ts";
 
 const PgnViewer = lazy(() => import("#/components/PgnViewer.tsx"));
 
@@ -100,7 +101,8 @@ const Chessboard = () => {
 									type="checkbox"
 									className="checkbox-accent"
 									checked={gameState.diagrams.some(
-										(d) => d.ply === currentPosition.ply,
+										(d) =>
+											diagramKey(d.path) === diagramKey(currentPosition.path),
 									)}
 									onChange={handleToggleDiagram}
 								/>

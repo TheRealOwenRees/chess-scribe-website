@@ -12,7 +12,7 @@ import type { IHeader, IPosition } from "#/interfaces.ts";
 import { gameReducer, initialGameState } from "#/reducers/gameReducer.ts";
 import { recordPdfSuccess } from "#/server/pdfMetrics.ts";
 import { downloadPDF } from "#/utils/pdfUtils.ts";
-import { buildPgnString, getHeaders } from "#/utils/pgnUtils.ts";
+import { buildPgnString, diagramKey, getHeaders } from "#/utils/pgnUtils.ts";
 import { downloadString } from "#/utils/stringUtils.ts";
 
 export const useChessGame = () => {
@@ -23,14 +23,15 @@ export const useChessGame = () => {
 	const [currentPosition, setCurrentPosition] = useState<IPosition>({
 		ply: 0,
 		fen: "",
+		path: [],
 	});
 
 	const [generatingPdf, setGeneratingPdf] = useState(false);
 
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-	const handlePlyChange = useCallback(({ ply, fen }: IPosition) => {
-		setCurrentPosition({ ply, fen });
+	const handlePlyChange = useCallback(({ ply, fen, path }: IPosition) => {
+		setCurrentPosition({ ply, fen, path });
 	}, []);
 
 	const handleSavePgn = () => {
@@ -157,14 +158,15 @@ export const useChessGame = () => {
 
 	const handleToggleDiagram = () => {
 		if (!gameState.pgn) return;
-		const { ply, fen } = currentPosition;
+		const { ply, fen, path } = currentPosition;
 		if (ply === 0) return;
-		const exists = gameState.diagrams.some((d) => d.ply === ply);
+		const key = diagramKey(path);
+		const exists = gameState.diagrams.some((d) => diagramKey(d.path) === key);
 
 		gameDispatch(
 			exists
-				? { type: "DELETE_DIAGRAM", payload: { ply } }
-				: { type: "ADD_DIAGRAM", payload: { ply, fen } },
+				? { type: "DELETE_DIAGRAM", payload: { path } }
+				: { type: "ADD_DIAGRAM", payload: { ply, fen, path } },
 		);
 	};
 

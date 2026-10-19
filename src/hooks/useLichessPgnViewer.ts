@@ -1,13 +1,27 @@
 import LichessPgnViewer from "lichess-pgn-viewer";
-import { type RefObject, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import type { IPosition } from "#/interfaces.ts";
 
 type ViewerRef = ReturnType<typeof LichessPgnViewer>;
-type HandlePlyChange = ({ ply, fen }: IPosition) => void;
+type HandlePlyChange = (position: IPosition) => void;
 
-interface IHandleBoardClick {
-	viewerRef: RefObject<ViewerRef | null>;
-	handlePlyChange: HandlePlyChange;
+interface ViewerPath {
+	empty: () => boolean;
+	init: () => ViewerPath;
+}
+
+interface ViewerMoveData {
+	fen: string;
+	ply: number;
+	path: ViewerPath;
+}
+
+interface ViewerNode {
+	data?: { san: string };
+}
+
+interface ViewerGame {
+	nodeAt: (path: ViewerPath) => ViewerNode | undefined;
 }
 
 interface IProps {
@@ -15,66 +29,91 @@ interface IProps {
 	handlePlyChange: HandlePlyChange;
 }
 
-const getBoardEventData = () => {
-	const variationTags = document.querySelector("variation");
-	const moves = [...document.querySelectorAll("move")].filter((m) => {
-		if (!variationTags) return m.className !== "empty";
-		return m.parentNode?.querySelector("variation") && m.className !== "empty";
-	});
-	const ply = moves.findIndex((m) => m.classList.contains("current")) + 1;
-	return { moves, ply };
-};
+const getPosition = (viewer: ViewerRef | null): IPosition | null => {
+	if (!viewer) return null;
 
-const handleBoardClick = ({
-	viewerRef,
-	handlePlyChange,
-}: IHandleBoardClick) => {
-	const { ply } = getBoardEventData();
-	const fen = viewerRef.current?.curData().fen ?? "";
-	handlePlyChange({ ply, fen });
+	const data = viewer.curData() as unknown as Partial<ViewerMoveData>;
+	if (typeof data.ply !== "number" || !data.path || !data.fen) return null;
+
+	const game = viewer.game as unknown as ViewerGame;
+	const path: string[] = [];
+	let current = data.path;
+	while (!current.empty()) {
+		const node = game.nodeAt(current);
+		if (node?.data) path.unshift(node.data.san);
+		current = current.init();
+	}
+
+	return { ply: data.ply, fen: data.fen, path };
 };
 
 export const useLichessPgnViewer = ({ gamePgn, handlePlyChange }: IProps) => {
 	const viewerRef = useRef<ViewerRef | null>(null);
+	const handlePlyChangeRef = useRef(handlePlyChange);
+	const lastKeyRef = useRef("");
+	handlePlyChangeRef.current = handlePlyChange;
 
 	useEffect(() => {
-		const element: HTMLElement | null = document.querySelector(".lpv-board");
-		if (!element) return;
+		const host = document.querySelector<HTMLElement>(".lpv-board");
+		if (!host) return;
 
-		viewerRef.current = LichessPgnViewer(element, {
+		// Mount the viewer into a fresh child so React keeps ownership of the
+		// host element and the viewer can replace its own root freely.
+		host.replaceChildren();
+		lastKeyRef.current = "";
+
+		const mount = document.createElement("div");
+		host.appendChild(mount);
+
+		viewerRef.current = LichessPgnViewer(mount, {
 			pgn: gamePgn,
 			scrollToMove: false,
 		});
 
-		const boardButtons = document.querySelectorAll(".lpv__controls");
-		const movesList = document.querySelectorAll(".lpv__moves");
-		if (!boardButtons || !movesList) return;
+		return () => {
+			host.replaceChildren();
+			viewerRef.current = null;
+		};
+	}, [gamePgn]);
 
-		const handleClick = () => handleBoardClick({ viewerRef, handlePlyChange });
-		const clickHandlerDelay = () => setTimeout(() => handleClick, 250);
+	useEffect(() => {
+		let timeout = 0;
 
-		boardButtons.forEach((button) => {
-			button.addEventListener("click", handleClick);
-			button.addEventListener("touchstart", handleClick);
-		});
+		const updatePosition = () => {
+			window.clearTimeout(timeout);
+			timeout = window.setTimeout(() => {
+				const position = getPosition(viewerRef.current);
+				if (!position) return;
 
-		movesList.forEach((move) => {
-			move.addEventListener("click", clickHandlerDelay);
-			move.addEventListener("touchstart", clickHandlerDelay);
-		});
+				const key = `${position.ply}|${position.path.join(" ")}`;
+				if (key === lastKeyRef.current) return;
+
+				lastKeyRef.current = key;
+				handlePlyChangeRef.current(position);
+			}, 0);
+		};
+
+		// Listen at the document level so the handler survives the viewer
+		// re-rendering its inner DOM (it replaces the moves/controls nodes).
+		const handleInteraction = (event: Event) => {
+			const target = event.target;
+			if (!(target instanceof Element) || !target.closest(".lpv")) return;
+			updatePosition();
+		};
+
+		document.addEventListener("mousedown", handleInteraction);
+		document.addEventListener("touchstart", handleInteraction);
+		document.addEventListener("click", handleInteraction);
+		document.addEventListener("keyup", handleInteraction);
 
 		return () => {
-			boardButtons.forEach((button) => {
-				button.removeEventListener("click", handleClick);
-				button.removeEventListener("touchstart", handleClick);
-			});
-
-			movesList.forEach((move) => {
-				move.removeEventListener("click", clickHandlerDelay);
-				move.removeEventListener("touchstart", clickHandlerDelay);
-			});
+			window.clearTimeout(timeout);
+			document.removeEventListener("mousedown", handleInteraction);
+			document.removeEventListener("touchstart", handleInteraction);
+			document.removeEventListener("click", handleInteraction);
+			document.removeEventListener("keyup", handleInteraction);
 		};
-	}, [gamePgn, handlePlyChange]);
+	}, []);
 
 	return viewerRef;
 };

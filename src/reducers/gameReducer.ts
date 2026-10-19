@@ -1,11 +1,12 @@
 import type { IGameState, IHeader, IPosition } from "#/interfaces.ts";
+import { diagramKey } from "#/utils/pgnUtils.ts";
 
 export type GameAction =
 	| { type: "SET_GAME"; payload: { pgn: string; headers: IHeader } }
 	| { type: "CLEAR_GAME" }
 	| { type: "SET_HEADERS"; payload: IHeader }
 	| { type: "ADD_DIAGRAM"; payload: IPosition }
-	| { type: "DELETE_DIAGRAM"; payload: { ply: number } }
+	| { type: "DELETE_DIAGRAM"; payload: { path: string[] } }
 	| { type: "TOGGLE_DIAGRAM_CLOCK" };
 
 const defaultHeaderFields = {
@@ -59,7 +60,8 @@ export const gameReducer = (state: IGameState, action: GameAction) => {
 			return {
 				...state,
 				diagrams: state.diagrams.filter(
-					(diagram: IPosition) => diagram.ply !== action.payload.ply,
+					(diagram: IPosition) =>
+						diagramKey(diagram.path) !== diagramKey(action.payload.path),
 				),
 			};
 		case "TOGGLE_DIAGRAM_CLOCK":

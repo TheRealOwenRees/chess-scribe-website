@@ -9,5 +9,6 @@
 - checkbox and toggle disabled states
 - react query on for study and chapter load, to allow caching
 - https://specification.website/checklist/
+- variations
 
 - react query to cache the study and chapters
